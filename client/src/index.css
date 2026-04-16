@@ -1,0 +1,270 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* Modern Minimalist with Warm Accents Color Palette */
+  /* Primary: Deep Navy - Authority and trust */
+  --primary: #1a3a52;
+  --primary-foreground: #faf8f3;
+  
+  /* Accent: Warm Terracotta - Energy and warmth */
+  --accent: #c85a3a;
+  --accent-foreground: #faf8f3;
+  
+  /* Secondary: Sage Green - Balance and harmony */
+  --secondary: #7a9b8e;
+  --secondary-foreground: #faf8f3;
+  
+  --sidebar-primary: #1a3a52;
+  --sidebar-primary-foreground: #faf8f3;
+  --chart-1: #c85a3a;
+  --chart-2: #7a9b8e;
+  --chart-3: #1a3a52;
+  --chart-4: #e8d4c8;
+  --chart-5: #d4a574;
+  
+  --radius: 0.65rem;
+  
+  /* Background: Cream - Warm and inviting */
+  --background: #faf8f3;
+  --foreground: #1a3a52;
+  
+  /* Card: White with subtle warmth */
+  --card: #ffffff;
+  --card-foreground: #1a3a52;
+  
+  --popover: #ffffff;
+  --popover-foreground: #1a3a52;
+  
+  /* Muted: Light gray-beige */
+  --secondary: #f5f1eb;
+  --secondary-foreground: #4a5a6a;
+  
+  --muted: #e8ddd3;
+  --muted-foreground: #6a7a8a;
+  
+  --destructive: #d32f2f;
+  --destructive-foreground: #faf8f3;
+  
+  /* Border: Subtle warm gray */
+  --border: #e8ddd3;
+  --input: #f5f1eb;
+  --ring: #c85a3a;
+  
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1a3a52;
+  --sidebar-accent: #f5f1eb;
+  --sidebar-accent-foreground: #1a3a52;
+  --sidebar-border: #e8ddd3;
+  --sidebar-ring: #c85a3a;
+}
+
+.dark {
+  --primary: #1a3a52;
+  --primary-foreground: #faf8f3;
+  --sidebar-primary: #1a3a52;
+  --sidebar-primary-foreground: #faf8f3;
+  --background: #0f1419;
+  --foreground: #e8ddd3;
+  --card: #1a2332;
+  --card-foreground: #e8ddd3;
+  --popover: #1a2332;
+  --popover-foreground: #e8ddd3;
+  --secondary: #2a3a4a;
+  --secondary-foreground: #c8b8a8;
+  --muted: #3a4a5a;
+  --muted-foreground: #a8a8a8;
+  --accent: #c85a3a;
+  --accent-foreground: #faf8f3;
+  --destructive: #ff6b6b;
+  --destructive-foreground: #0f1419;
+  --border: #2a3a4a;
+  --input: #1a2332;
+  --ring: #c85a3a;
+  --chart-1: #c85a3a;
+  --chart-2: #7a9b8e;
+  --chart-3: #d4a574;
+  --chart-4: #e8d4c8;
+  --chart-5: #f5d9b8;
+  --sidebar: #1a2332;
+  --sidebar-foreground: #e8ddd3;
+  --sidebar-accent: #2a3a4a;
+  --sidebar-accent-foreground: #e8ddd3;
+  --sidebar-border: #2a3a4a;
+  --sidebar-ring: #c85a3a;
+}
+
+/* Design Philosophy: Modern Minimalist with Warm Accents
+   - Warm earthy palette (terracotta, sage, cream) with deep navy anchor
+   - Generous whitespace and clean typography
+   - Asymmetric layouts avoiding rigid centeredness
+   - Subtle geometric accents and refined shadows
+   - Smooth animations and micro-interactions */
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Georgia', 'Georgia Pro', serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled),
+  a[href],
+  select:not(:disabled),
+  input[type="checkbox"]:not(:disabled),
+  input[type="radio"]:not(:disabled) {
+    @apply cursor-pointer;
+  }
+}
+
+@layer components {
+  /**
+   * Custom container utility that centers content and adds responsive padding.
+   */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
+
+  @media (min-width: 640px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1280px;
+    }
+  }
+  
+  /* Custom button styles for design consistency */
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-lg font-medium transition-all duration-300;
+  }
+  
+  .btn-accent {
+    @apply bg-accent text-accent-foreground px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg;
+  }
+  
+  /* Subtle accent border for design elements */
+  .accent-border {
+    @apply border-l-4 border-accent;
+  }
+  
+  /* Smooth fade-in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .fade-in {
+    animation: fadeIn 0.6s ease-out;
+  }
+  
+  /* Subtle hover lift effect */
+  @keyframes liftHover {
+    from {
+      transform: translateY(0);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+    to {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+    }
+  }
+  
+  .hover-lift {
+    @apply transition-all duration-300;
+  }
+  
+  .hover-lift:hover {
+    animation: liftHover 0.3s ease-out forwards;
+  }
+}
