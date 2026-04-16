@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Muslim Traders">
+  <rect width="64" height="64" fill="#e6e6e6" />
+  <path
+    fill="#0f9a4f"
+    d="M8 54L14 10H24L32 24L40 10H50V54H39V27L31 39L23 27L17 54Z"
+  />
+  <path
+    fill="#17a85a"
+    d="M32 10H58L55 18H45V54H33V18H30Z"
+    opacity="0.95"
+  />
+</svg>
