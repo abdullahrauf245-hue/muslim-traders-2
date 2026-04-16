@@ -336,9 +336,9 @@ export default function Home() {
               <div className="text-sm font-semibold mb-6 tracking-wide opacity-90">BUSINESS HOURS</div>
               <div className="space-y-4">
                 {[
-                  { day: 'Mon - Thu', hours: '8:00 AM - 7:00 PM' },
-                  { day: 'Friday', hours: '9:00 AM - 5:00 PM (prayer break observed)' },
-                  { day: 'Saturday', hours: '8:00 AM - 7:00 PM' },
+                  { day: 'Mon - Thu', hours: '7:30 AM - 7:30 PM' },
+                  { day: 'Friday', hours: '7:00 AM - 5:00 PM' },
+                  { day: 'Saturday', hours: '7:30 AM - 7:30 PM' },
                   { day: 'Sunday', hours: 'Closed' },
                 ].map((schedule, index) => (
                   <div key={index} className="flex justify-between items-center pb-4 border-b border-primary-foreground/20">
