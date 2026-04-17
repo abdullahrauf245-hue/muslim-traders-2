@@ -58,6 +58,8 @@ export default function Home() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const { theme, toggleTheme, switchable } = useTheme();
 
+  const formatWholeNumber = (value: number) => Math.trunc(value).toLocaleString();
+
   const filteredData = useMemo(() => {
     return priceData.filter((item) => {
       const matchesSearch = item.brand.toLowerCase().includes(searchTerm.toLowerCase());
@@ -68,7 +70,7 @@ export default function Home() {
 
   const stats = useMemo(() => {
     const validRates = filteredData.filter((item) => item.rate > 0).map((item) => item.rate);
-    const avgRate = validRates.length > 0 ? (validRates.reduce((a, b) => a + b, 0) / validRates.length).toFixed(2) : '0';
+    const avgRate = validRates.length > 0 ? formatWholeNumber(validRates.reduce((a, b) => a + b, 0) / validRates.length) : '0';
     const maxRate = validRates.length > 0 ? Math.max(...validRates) : 0;
     const minRate = validRates.length > 0 ? Math.min(...validRates) : 0;
 
@@ -78,18 +80,18 @@ export default function Home() {
     return {
       visibleSkus: filteredData.length,
       averageRate: avgRate,
-      highestRate: maxItem ? `${maxItem.brand} (${maxRate.toLocaleString()})` : 'N/A',
-      lowestRate: minItem ? `${minItem.brand} (${minRate.toLocaleString()})` : 'N/A',
+      highestRate: maxItem ? `${maxItem.brand} (${formatWholeNumber(maxRate)})` : 'N/A',
+      lowestRate: minItem ? `${minItem.brand} (${formatWholeNumber(minRate)})` : 'N/A',
     };
   }, [filteredData]);
 
   const getOuterRate = (item: PriceItem) => {
-    if (item.category === 'Cigarettes') {
-      return (item.rate / 5).toLocaleString(undefined, {
-        maximumFractionDigits: 2,
-      });
+    const outerRate = item.category === 'Cigarettes' ? item.rate / 5 : Number(item.unitRate);
+    if (Number.isNaN(outerRate)) {
+      return item.unitRate;
     }
-    return item.unitRate;
+
+    return formatWholeNumber(outerRate);
   };
 
   return (
@@ -276,7 +278,7 @@ export default function Home() {
                       </span>
                     </td>
                     <td className="px-6 py-4 text-right text-foreground/70">{getOuterRate(item)}</td>
-                    <td className="px-6 py-4 text-right font-semibold text-primary">{item.rate.toLocaleString()}</td>
+                    <td className="px-6 py-4 text-right font-semibold text-primary">{formatWholeNumber(item.rate)}</td>
                     <td className="px-6 py-4 text-right text-foreground/70">{item.wsFiler}</td>
                     <td className="px-6 py-4 text-right text-foreground/70">{item.wsNonFiler}</td>
                   </tr>
