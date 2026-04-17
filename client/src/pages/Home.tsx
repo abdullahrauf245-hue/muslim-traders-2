@@ -58,6 +58,33 @@ export default function Home() {
   const [categoryFilter, setCategoryFilter] = useState('all');
   const { theme, toggleTheme, switchable } = useTheme();
 
+  const businessTimeline = [
+    {
+      business: 'Haleeb Foods',
+      started: '1988',
+      ended: '2008',
+      detail: 'Started distribution operations in 1988 and completed this partnership in 2008.',
+    },
+    {
+      business: 'Procter & Gamble',
+      started: '1990',
+      ended: '2007',
+      detail: 'Handled distribution from 1990 and remained active until 2007.',
+    },
+    {
+      business: 'Super Crisp Industries',
+      started: '1991',
+      ended: '2011',
+      detail: 'Brought into the portfolio in 1991 and served this channel through 2011.',
+    },
+    {
+      business: 'PTC',
+      started: '2007',
+      ended: 'Present',
+      detail: 'Joined in 2007 and continuing distribution work since then.',
+    },
+  ];
+
   const formatWholeNumber = (value: number) => Math.trunc(value).toLocaleString();
 
   const filteredData = useMemo(() => {
@@ -107,6 +134,7 @@ export default function Home() {
           </div>
           <div className="flex items-center gap-3">
             <div className="hidden items-center gap-6 md:flex">
+              <a href="#journey" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Journey</a>
               <a href="#operations" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Operations</a>
               <a href="#price-board" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Price Board</a>
               <a href="#portfolio" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Portfolio</a>
@@ -144,7 +172,7 @@ export default function Home() {
               Muslim Traders
             </h1>
             <p className="text-lg text-foreground/80 mb-8 leading-relaxed max-w-lg">
-              Connecting factory dispatch to local retailers with bulk fulfillment, direct store delivery, and track-and-trace compliant movement of legal tobacco products.
+              The place where you can place your trust. Started in 1988, Muslim Traders has built a reliable distribution network through long-term partnerships and disciplined market service.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button className="btn-primary">Get Started</Button>
@@ -164,6 +192,33 @@ export default function Home() {
               <div className="text-lg font-bold text-primary mb-2">Strict Compliance</div>
               <p className="text-foreground/80">Track-and-trace linked distribution with tax-documented supply</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Company Journey Section */}
+      <section id="journey" className="py-20 md:py-28 bg-card">
+        <div className="container">
+          <div className="mb-12">
+            <div className="text-sm font-semibold text-accent mb-4 tracking-wide">TRUSTED JOURNEY SINCE 1988</div>
+            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">The Place Where Businesses Place Their Trust</h2>
+            <p className="text-foreground/70 max-w-3xl leading-relaxed">
+              Muslim Traders started in 1988 and has consistently delivered distribution support across leading brands. Our history reflects long-term relationships, clear performance, and continuity in market coverage.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {businessTimeline.map((item) => (
+              <div key={item.business} className="rounded-xl border border-border bg-background p-6 hover-lift">
+                <div className="flex items-center justify-between gap-4 mb-3">
+                  <h3 className="text-2xl font-bold text-primary">{item.business}</h3>
+                  <span className="rounded-full bg-accent/10 text-accent px-4 py-1 text-sm font-semibold">
+                    {item.started} - {item.ended}
+                  </span>
+                </div>
+                <p className="text-foreground/70 leading-relaxed">{item.detail}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
