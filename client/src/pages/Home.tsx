@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
-import { Search, Filter, Phone, MapPin, Clock } from 'lucide-react';
+import { Filter, MapPin, Moon, Phone, Search, Sun } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useTheme } from '@/contexts/ThemeContext';
 import {
   Select,
   SelectContent,
@@ -55,6 +56,7 @@ const priceData: PriceItem[] = [
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const { theme, toggleTheme, switchable } = useTheme();
 
   const filteredData = useMemo(() => {
     return priceData.filter((item) => {
@@ -81,10 +83,19 @@ export default function Home() {
     };
   }, [filteredData]);
 
+  const getOuterRate = (item: PriceItem) => {
+    if (item.category === 'Cigarettes') {
+      return (item.rate / 5).toLocaleString(undefined, {
+        maximumFractionDigits: 2,
+      });
+    }
+    return item.unitRate;
+  };
+
   return (
     <div className="min-h-screen bg-background">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white shadow-sm border-b border-border">
+      <nav className="sticky top-0 z-50 border-b border-border bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/85">
         <div className="container flex items-center justify-between py-4">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
@@ -92,11 +103,25 @@ export default function Home() {
             </div>
             <h1 className="text-xl font-bold text-primary hidden sm:block">Muslim Traders</h1>
           </div>
-          <div className="flex items-center gap-6">
-            <a href="#operations" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Operations</a>
-            <a href="#price-board" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Price Board</a>
-            <a href="#portfolio" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Portfolio</a>
-            <a href="#contact" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Contact</a>
+          <div className="flex items-center gap-3">
+            <div className="hidden items-center gap-6 md:flex">
+              <a href="#operations" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Operations</a>
+              <a href="#price-board" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Price Board</a>
+              <a href="#portfolio" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Portfolio</a>
+              <a href="#contact" className="text-sm font-medium text-foreground hover:text-accent transition-colors">Contact</a>
+            </div>
+            {switchable && toggleTheme && (
+              <Button
+                type="button"
+                variant="outline"
+                size="icon"
+                onClick={toggleTheme}
+                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+                className="h-9 w-9 rounded-full border-border bg-background/80 hover:bg-muted"
+              >
+                {theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+              </Button>
+            )}
           </div>
         </div>
       </nav>
@@ -125,24 +150,24 @@ export default function Home() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6">
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-border hover-lift">
+            <div className="bg-card rounded-xl p-8 shadow-sm border border-border hover-lift">
               <div className="text-4xl font-bold text-accent mb-2">375</div>
-              <p className="text-foreground/70">Exclusive distributors in the PTC network nationwide</p>
+              <p className="text-foreground/80">Exclusive distributors in the PTC network nationwide</p>
             </div>
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-border hover-lift">
+            <div className="bg-card rounded-xl p-8 shadow-sm border border-border hover-lift">
               <div className="text-4xl font-bold text-secondary mb-2">400,000+</div>
-              <p className="text-foreground/70">Retail stores supported across Pakistan by the network</p>
+              <p className="text-foreground/80">Retail stores supported across Pakistan by the network</p>
             </div>
-            <div className="bg-white rounded-xl p-8 shadow-sm border border-border hover-lift">
+            <div className="bg-card rounded-xl p-8 shadow-sm border border-border hover-lift">
               <div className="text-lg font-bold text-primary mb-2">Strict Compliance</div>
-              <p className="text-foreground/70">Track-and-trace linked distribution with tax-documented supply</p>
+              <p className="text-foreground/80">Track-and-trace linked distribution with tax-documented supply</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Operations Section */}
-      <section id="operations" className="py-20 md:py-32 bg-white">
+      <section id="operations" className="py-20 md:py-32 bg-card">
         <div
           className="absolute inset-0 bg-cover bg-center pointer-events-none"
           style={{
@@ -222,13 +247,13 @@ export default function Home() {
           </div>
 
           {/* Price Table */}
-          <div className="overflow-x-auto rounded-xl border border-border bg-white">
+          <div className="overflow-x-auto rounded-xl border border-border bg-card">
             <table className="w-full">
               <thead className="bg-primary text-primary-foreground">
                 <tr>
                   <th className="px-6 py-4 text-left font-semibold">Brand</th>
                   <th className="px-6 py-4 text-left font-semibold">Category</th>
-                  <th className="px-6 py-4 text-right font-semibold">Unit Rate</th>
+                  <th className="px-6 py-4 text-right font-semibold">Outer Rate</th>
                   <th className="px-6 py-4 text-right font-semibold">Rate</th>
                   <th className="px-6 py-4 text-right font-semibold">WS Filer</th>
                   <th className="px-6 py-4 text-right font-semibold">WS Non Filer</th>
@@ -250,7 +275,7 @@ export default function Home() {
                         {item.category}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right text-foreground/70">{item.unitRate}</td>
+                    <td className="px-6 py-4 text-right text-foreground/70">{getOuterRate(item)}</td>
                     <td className="px-6 py-4 text-right font-semibold text-primary">{item.rate.toLocaleString()}</td>
                     <td className="px-6 py-4 text-right text-foreground/70">{item.wsFiler}</td>
                     <td className="px-6 py-4 text-right text-foreground/70">{item.wsNonFiler}</td>
@@ -262,19 +287,19 @@ export default function Home() {
 
           {/* Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            <div className="bg-white rounded-lg p-6 border border-border text-center">
+            <div className="bg-card rounded-lg p-6 border border-border text-center">
               <div className="text-3xl font-bold text-accent mb-2">{stats.visibleSkus}</div>
               <p className="text-sm text-foreground/70">Visible SKUs</p>
             </div>
-            <div className="bg-white rounded-lg p-6 border border-border text-center">
+            <div className="bg-card rounded-lg p-6 border border-border text-center">
               <div className="text-3xl font-bold text-secondary mb-2">{stats.averageRate}</div>
-              <p className="text-sm text-foreground/70">Average Unit Rate</p>
+              <p className="text-sm text-foreground/70">Average Outer Rate</p>
             </div>
-            <div className="bg-white rounded-lg p-6 border border-border text-center">
+            <div className="bg-card rounded-lg p-6 border border-border text-center">
               <div className="text-lg font-bold text-primary mb-2">{stats.highestRate}</div>
               <p className="text-sm text-foreground/70">Highest Rate</p>
             </div>
-            <div className="bg-white rounded-lg p-6 border border-border text-center">
+            <div className="bg-card rounded-lg p-6 border border-border text-center">
               <div className="text-lg font-bold text-primary mb-2">{stats.lowestRate}</div>
               <p className="text-sm text-foreground/70">Lowest Rate</p>
             </div>
@@ -284,7 +309,7 @@ export default function Home() {
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 md:py-32 bg-white">
+      <section id="portfolio" className="py-20 md:py-32 bg-card">
         <div className="container">
           <div className="mb-12">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">BRAND PORTFOLIO</div>

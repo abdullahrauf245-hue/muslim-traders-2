@@ -78,9 +78,6 @@
   --popover-foreground: #1a3a52;
   
   /* Muted: Light gray-beige */
-  --secondary: #f5f1eb;
-  --secondary-foreground: #4a5a6a;
-  
   --muted: #e8ddd3;
   --muted-foreground: #6a7a8a;
   
@@ -111,8 +108,8 @@
   --card-foreground: #e8ddd3;
   --popover: #1a2332;
   --popover-foreground: #e8ddd3;
-  --secondary: #2a3a4a;
-  --secondary-foreground: #c8b8a8;
+  --secondary: #8caea1;
+  --secondary-foreground: #0f1419;
   --muted: #3a4a5a;
   --muted-foreground: #a8a8a8;
   --accent: #c85a3a;
