@@ -122,7 +122,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/85">
         <div className="container flex items-center justify-between py-3">
@@ -158,13 +158,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: 'url(https://d2xsxph8kpxj0f.cloudfront.net/310519663565729161/doNUs77GFpn5YgzDZDavjv/muslim-traders-hero-2-RD27WuoXsV3hJUtH75xsJn.webp)',
-            opacity: 0.15,
-          }}
-        />
         <div className="relative container py-14 md:py-20 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
           <div className="fade-in">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">OFFICIAL PTC DISTRIBUTOR</div>
@@ -225,13 +218,6 @@ export default function Home() {
 
       {/* Operations Section */}
       <section id="operations" className="relative overflow-hidden py-14 md:py-20 bg-card">
-        <div
-          className="absolute inset-0 bg-cover bg-center pointer-events-none"
-          style={{
-            backgroundImage: 'url(https://d2xsxph8kpxj0f.cloudfront.net/310519663565729161/doNUs77GFpn5YgzDZDavjv/muslim-traders-operations-bg-FDMcHPezvFS9knCMweFuRd.webp)',
-            opacity: 0.08,
-          }}
-        />
         <div className="relative container">
           <div className="mb-10">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">CORE BUSINESS OPERATIONS</div>
