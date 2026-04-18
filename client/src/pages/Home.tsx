@@ -125,7 +125,7 @@ export default function Home() {
     <div className="min-h-screen bg-background">
       {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-border bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/85">
-        <div className="container flex items-center justify-between py-4">
+        <div className="container flex items-center justify-between py-3">
           <div className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
               <span className="text-white font-bold text-lg">MT</span>
@@ -165,30 +165,30 @@ export default function Home() {
             opacity: 0.15,
           }}
         />
-        <div className="relative container py-20 md:py-32 grid md:grid-cols-2 gap-12 items-center">
+        <div className="relative container py-14 md:py-20 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
           <div className="fade-in">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">OFFICIAL PTC DISTRIBUTOR</div>
-            <h1 className="text-5xl md:text-6xl font-bold text-primary mb-6 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-primary mb-5 leading-tight">
               Muslim Traders
             </h1>
-            <p className="text-lg text-foreground/80 mb-8 leading-relaxed max-w-lg">
+            <p className="text-base text-foreground/80 mb-6 leading-relaxed max-w-lg">
               The place where you can place your trust. Started in 1988, Muslim Traders has built a reliable distribution network through long-term partnerships and disciplined market service.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-3">
               <Button className="btn-primary">Get Started</Button>
               <Button variant="outline" className="border-accent text-accent hover:bg-accent/10">Learn More</Button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-6">
-            <div className="bg-card rounded-xl p-8 shadow-sm border border-border hover-lift">
-              <div className="text-4xl font-bold text-accent mb-2">375</div>
+          <div className="grid grid-cols-1 gap-4">
+            <div className="bg-card rounded-xl p-6 shadow-sm border border-border hover-lift">
+              <div className="text-3xl font-bold text-accent mb-2">375</div>
               <p className="text-foreground/80">Exclusive distributors in the PTC network nationwide</p>
             </div>
-            <div className="bg-card rounded-xl p-8 shadow-sm border border-border hover-lift">
-              <div className="text-4xl font-bold text-secondary mb-2">400,000+</div>
+            <div className="bg-card rounded-xl p-6 shadow-sm border border-border hover-lift">
+              <div className="text-3xl font-bold text-secondary mb-2">400,000+</div>
               <p className="text-foreground/80">Retail stores supported across Pakistan by the network</p>
             </div>
-            <div className="bg-card rounded-xl p-8 shadow-sm border border-border hover-lift">
+            <div className="bg-card rounded-xl p-6 shadow-sm border border-border hover-lift">
               <div className="text-lg font-bold text-primary mb-2">Strict Compliance</div>
               <p className="text-foreground/80">Track-and-trace linked distribution with tax-documented supply</p>
             </div>
@@ -197,21 +197,21 @@ export default function Home() {
       </section>
 
       {/* Company Journey Section */}
-      <section id="journey" className="py-20 md:py-28 bg-card">
+      <section id="journey" className="py-14 md:py-20 bg-card">
         <div className="container">
-          <div className="mb-12">
+          <div className="mb-8">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">TRUSTED JOURNEY SINCE 1988</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">The Place Where Businesses Place Their Trust</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">The Place Where Businesses Place Their Trust</h2>
             <p className="text-foreground/70 max-w-3xl leading-relaxed">
               Muslim Traders started in 1988 and has consistently delivered distribution support across leading brands. Our history reflects long-term relationships, clear performance, and continuity in market coverage.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-5">
             {businessTimeline.map((item) => (
-              <div key={item.business} className="rounded-xl border border-border bg-background p-6 hover-lift">
+              <div key={item.business} className="rounded-xl border border-border bg-background p-5 hover-lift">
                 <div className="flex items-center justify-between gap-4 mb-3">
-                  <h3 className="text-2xl font-bold text-primary">{item.business}</h3>
+                  <h3 className="text-xl font-bold text-primary">{item.business}</h3>
                   <span className="rounded-full bg-accent/10 text-accent px-4 py-1 text-sm font-semibold">
                     {item.started} - {item.ended}
                   </span>
@@ -224,7 +224,7 @@ export default function Home() {
       </section>
 
       {/* Operations Section */}
-      <section id="operations" className="py-20 md:py-32 bg-card">
+      <section id="operations" className="relative overflow-hidden py-14 md:py-20 bg-card">
         <div
           className="absolute inset-0 bg-cover bg-center pointer-events-none"
           style={{
@@ -233,11 +233,11 @@ export default function Home() {
           }}
         />
         <div className="relative container">
-          <div className="mb-16">
+          <div className="mb-10">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">CORE BUSINESS OPERATIONS</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary">How Muslim Traders Runs Local Distribution</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary">How Muslim Traders Runs Local Distribution</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-6">
             {[
               {
                 title: 'Retail Supply Chain',
@@ -258,9 +258,9 @@ export default function Home() {
             ].map((operation, index) => (
               <div
                 key={index}
-                className="bg-background rounded-xl p-8 border-l-4 border-accent hover-lift"
+                className="bg-background rounded-xl p-6 border-l-4 border-accent hover-lift"
               >
-                <h3 className="text-2xl font-bold text-primary mb-4">{operation.title}</h3>
+                <h3 className="text-xl font-bold text-primary mb-3">{operation.title}</h3>
                 <p className="text-foreground/70 leading-relaxed">{operation.description}</p>
               </div>
             ))}
@@ -269,18 +269,18 @@ export default function Home() {
       </section>
 
       {/* Price Board Section */}
-      <section id="price-board" className="py-20 md:py-32 bg-background">
+      <section id="price-board" className="py-14 md:py-20 bg-background">
         <div className="container">
-          <div className="mb-12">
+          <div className="mb-8">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">PRICE CATALOG</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">PTC Cigarettes + Velo Price Board</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">PTC Cigarettes + Velo Price Board</h2>
             <p className="text-foreground/70">
               All figures are in PKR based on your provided sheet. Rate is fixed. WS means wholesale, filer means FBR-registered, and non-filer means not registered.
             </p>
           </div>
 
           {/* Search and Filter */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 mb-6">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
               <Input
@@ -308,12 +308,12 @@ export default function Home() {
             <table className="w-full">
               <thead className="bg-primary text-primary-foreground">
                 <tr>
-                  <th className="px-6 py-4 text-left font-semibold">Brand</th>
-                  <th className="px-6 py-4 text-left font-semibold">Category</th>
-                  <th className="px-6 py-4 text-right font-semibold">Outer Rate</th>
-                  <th className="px-6 py-4 text-right font-semibold">Rate</th>
-                  <th className="px-6 py-4 text-right font-semibold">WS Filer</th>
-                  <th className="px-6 py-4 text-right font-semibold">WS Non Filer</th>
+                  <th className="px-4 py-3 text-left font-semibold">Brand</th>
+                  <th className="px-4 py-3 text-left font-semibold">Category</th>
+                  <th className="px-4 py-3 text-right font-semibold">Outer Rate</th>
+                  <th className="px-4 py-3 text-right font-semibold">Rate</th>
+                  <th className="px-4 py-3 text-right font-semibold">WS Filer</th>
+                  <th className="px-4 py-3 text-right font-semibold">WS Non Filer</th>
                 </tr>
               </thead>
               <tbody>
@@ -322,8 +322,8 @@ export default function Home() {
                     key={index}
                     className="border-t border-border hover:bg-muted/50 transition-colors"
                   >
-                    <td className="px-6 py-4 font-medium text-foreground">{item.brand}</td>
-                    <td className="px-6 py-4 text-foreground/70">
+                    <td className="px-4 py-3 font-medium text-foreground">{item.brand}</td>
+                    <td className="px-4 py-3 text-foreground/70">
                       <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
                         item.category === 'Cigarettes'
                           ? 'bg-accent/10 text-accent'
@@ -332,10 +332,10 @@ export default function Home() {
                         {item.category}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right text-foreground/70">{getOuterRate(item)}</td>
-                    <td className="px-6 py-4 text-right font-semibold text-primary">{formatWholeNumber(item.rate)}</td>
-                    <td className="px-6 py-4 text-right text-foreground/70">{item.wsFiler}</td>
-                    <td className="px-6 py-4 text-right text-foreground/70">{item.wsNonFiler}</td>
+                    <td className="px-4 py-3 text-right text-foreground/70">{getOuterRate(item)}</td>
+                    <td className="px-4 py-3 text-right font-semibold text-primary">{formatWholeNumber(item.rate)}</td>
+                    <td className="px-4 py-3 text-right text-foreground/70">{item.wsFiler}</td>
+                    <td className="px-4 py-3 text-right text-foreground/70">{item.wsNonFiler}</td>
                   </tr>
                 ))}
               </tbody>
@@ -343,43 +343,43 @@ export default function Home() {
           </div>
 
           {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
-            <div className="bg-card rounded-lg p-6 border border-border text-center">
-              <div className="text-3xl font-bold text-accent mb-2">{stats.visibleSkus}</div>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+            <div className="bg-card rounded-lg p-4 border border-border text-center">
+              <div className="text-2xl font-bold text-accent mb-1">{stats.visibleSkus}</div>
               <p className="text-sm text-foreground/70">Visible SKUs</p>
             </div>
-            <div className="bg-card rounded-lg p-6 border border-border text-center">
-              <div className="text-3xl font-bold text-secondary mb-2">{stats.averageRate}</div>
+            <div className="bg-card rounded-lg p-4 border border-border text-center">
+              <div className="text-2xl font-bold text-secondary mb-1">{stats.averageRate}</div>
               <p className="text-sm text-foreground/70">Average Outer Rate</p>
             </div>
-            <div className="bg-card rounded-lg p-6 border border-border text-center">
+            <div className="bg-card rounded-lg p-4 border border-border text-center">
               <div className="text-lg font-bold text-primary mb-2">{stats.highestRate}</div>
               <p className="text-sm text-foreground/70">Highest Rate</p>
             </div>
-            <div className="bg-card rounded-lg p-6 border border-border text-center">
+            <div className="bg-card rounded-lg p-4 border border-border text-center">
               <div className="text-lg font-bold text-primary mb-2">{stats.lowestRate}</div>
               <p className="text-sm text-foreground/70">Lowest Rate</p>
             </div>
           </div>
-          <p className="text-xs text-foreground/50 mt-6">Sheet updated: 16 Apr 2026. Unlabeled sheet value captured: 170.</p>
+          <p className="text-xs text-foreground/50 mt-4">Sheet updated: 16 Apr 2026. Unlabeled sheet value captured: 170.</p>
         </div>
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-20 md:py-32 bg-card">
+      <section id="portfolio" className="py-14 md:py-20 bg-card">
         <div className="container">
-          <div className="mb-12">
+          <div className="mb-8">
             <div className="text-sm font-semibold text-accent mb-4 tracking-wide">BRAND PORTFOLIO</div>
-            <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">Major PTC-Owned Lines Supported</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">Major PTC-Owned Lines Supported</h2>
             <p className="text-foreground/70">
               Alongside listed SKUs in the price board, Muslim Traders handles local channel support for premium and mass market labels.
             </p>
           </div>
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-3">
             {['Dunhill', 'Benson & Hedges', 'John Player', 'Gold Leaf', 'Capstan', 'Embassy', 'Velo'].map((brand) => (
               <div
                 key={brand}
-                className="px-6 py-3 bg-background border border-accent rounded-full font-semibold text-primary hover:bg-accent hover:text-accent-foreground transition-all duration-300 cursor-pointer"
+                className="px-4 py-2 bg-background border border-accent rounded-full text-sm font-semibold text-primary hover:bg-accent hover:text-accent-foreground transition-all duration-300 cursor-pointer"
               >
                 {brand}
               </div>
@@ -389,22 +389,22 @@ export default function Home() {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 md:py-32 bg-primary text-primary-foreground">
+      <section id="contact" className="py-14 md:py-20 bg-primary text-primary-foreground">
         <div className="container">
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-8">
             <div>
               <div className="text-sm font-semibold mb-4 tracking-wide opacity-90">CONTACT AND ACCESS</div>
-              <h2 className="text-4xl md:text-5xl font-bold mb-8">Muslim Traders, Mohallah Eid Gah</h2>
-              <div className="space-y-6">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6">Muslim Traders, Mohallah Eid Gah</h2>
+              <div className="space-y-4">
                 <div className="flex items-start gap-4">
-                  <MapPin className="w-6 h-6 mt-1 flex-shrink-0" />
+                  <MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-semibold mb-1">Location</p>
                     <p className="opacity-90">Chakwal, Pakistan</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
-                  <Phone className="w-6 h-6 mt-1 flex-shrink-0" />
+                  <Phone className="w-5 h-5 mt-1 flex-shrink-0" />
                   <div>
                     <p className="font-semibold mb-1">Phone</p>
                     <a href="tel:+92543669062" className="opacity-90 hover:opacity-100 transition-opacity">
