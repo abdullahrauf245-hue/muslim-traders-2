@@ -328,7 +328,42 @@ export default function Home() {
           </div>
 
           {/* Price Table */}
-          <div className="overflow-x-auto rounded-xl border border-border bg-card">
+          <div className="md:hidden space-y-3">
+            {filteredData.map((item, index) => (
+              <article key={`${item.brand}-${index}`} className="rounded-xl border border-border bg-card p-4">
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="text-sm font-semibold text-primary leading-snug">{item.brand}</h3>
+                  <span className={`inline-block rounded-full px-2.5 py-1 text-xs font-medium ${
+                    item.category === 'Cigarettes'
+                      ? 'bg-accent/10 text-accent'
+                      : 'bg-secondary/10 text-secondary'
+                  }`}>
+                    {item.category}
+                  </span>
+                </div>
+                <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
+                  <div>
+                    <dt className="text-foreground/60">Outer Rate</dt>
+                    <dd className="font-semibold text-primary">{getOuterRate(item)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-foreground/60">Rate</dt>
+                    <dd className="font-semibold text-primary">{formatWholeNumber(item.rate)}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-foreground/60">WS Filer</dt>
+                    <dd className="text-foreground/80">{item.wsFiler}</dd>
+                  </div>
+                  <div>
+                    <dt className="text-foreground/60">WS Non Filer</dt>
+                    <dd className="text-foreground/80">{item.wsNonFiler}</dd>
+                  </div>
+                </dl>
+              </article>
+            ))}
+          </div>
+
+          <div className="hidden md:block overflow-x-auto rounded-xl border border-border bg-card">
             <table className="w-full min-w-[760px] text-sm sm:text-base">
               <thead className="bg-primary text-primary-foreground">
                 <tr>
