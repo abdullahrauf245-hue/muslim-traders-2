@@ -6,23 +6,22 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.6-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Vercel](https://img.shields.io/badge/Vercel-Ready-black?logo=vercel)](https://vercel.com/)
 
-**Official PTC Distributor Website** – Modern, responsive interface for Muslim Traders (est. 1988), Chakwal, Pakistan. Features searchable price board for cigarettes & Velo, business timeline, operations overview, and contact info. Built with React 19, Shadcn/UI, Tailwind CSS 4, and Vite.
+**Official PTC Distributor Website** – A premium, modern digital experience for Muslim Traders (est. 1988), Chakwal, Pakistan. Featuring a glowing glassmorphism aesthetic, a dynamic price board for FMCG & Velo distribution, an interactive business timeline, and leadership profiles. Built as a blazing-fast Single Page Application (SPA) with React 19, Tailwind CSS 4, and Vite.
 
 ## 🎯 Features
 
-- **Price Board**: Search/filter Cigarettes & Velo SKUs with live stats (avg/high/low rates, WS Filer/Non-Filer).
-- **Responsive Design**: Mobile-first with sticky nav, collapsible menu, touch-optimized tables.
-- **Theme Toggle**: Light/dark mode via `ThemeContext`.
-- **Business Sections**: Hero, Journey (1988–present), Operations, Portfolio (Dunhill, Capstan, etc.), Contact.
-- **Performance**: Framer Motion animations, React 19, optimized Vite builds.
-- **Custom Tools**: Google Maps ready (`Map.tsx`), Manus debug logging (console/network/session).
-- **Accessibility**: Radix UI primitives, ARIA labels, keyboard nav.
+- **Dynamic Price Board**: Search and filter Cigarettes & Velo SKUs with live stats. Automatically reformats into elegant responsive cards on mobile.
+- **Historic Timeline**: An interactive "Through the Decades" timeline chronicling partnerships with Haleeb Foods, P&G, Super Crisp, and PTC since 1988.
+- **Premium Glassmorphism UI**: High-end minimalist design with 3D elements, glowing orange accents, frosted glass containers, and abstract floating background animations.
+- **Single Page Architecture (SPA)**: Fluid navigation between Hero, Journey, Operations, Leadership, Portfolio, and Contact sections without page reloads.
+- **Responsive Design**: Flawless mobile-first implementation ensuring complex data tables degrade gracefully on smaller screens.
+- **Performance**: Optimized Vite builds with zero-layout-shift micro-animations.
 
 ## 🚀 Quick Start
 
 ```bash
 # Clone & Install (pnpm recommended)
-git clone <repo> &amp;&amp; cd "Muslim Traders manus"
+git clone <repo> && cd "Muslim Traders manus"
 pnpm install
 
 # Development (localhost:3000)
@@ -45,71 +44,29 @@ pnpm start
 | --------------------- | ----------------------------------------------------------------------- |
 | **Framework**         | React 19 + TypeScript 5.6                                               |
 | **Build Tool**        | Vite 7 + Tailwind CSS 4 (@tailwindcss/vite)                             |
-| **UI Library**        | Shadcn/UI (full components: button, table, dialog, etc.) + Lucide icons |
-| **Styling**           | Tailwind + clsx + class-variance-authority (CVA) + tailwind-merge       |
-| **Routing/State**     | Wouter + React Context (ThemeProvider) + React Hook Form + Zod          |
-| **Animations/Charts** | Framer Motion + Recharts                                                |
+| **UI Library**        | Shadcn/UI (buttons, dialogs, dropdowns) + Lucide icons                  |
+| **Styling**           | Tailwind + custom CSS utilities (`.glass`, `.pill-3d`) + clsx + tailwind-merge |
+| **Routing/State**     | Wouter + React Hooks                                                    |
+| **Animations**        | Pure CSS Keyframes (floatSlow, pulse-dot, fadeInUp)                     |
 | **Server**            | Express.js (static SPA hosting)                                         |
-| **Other**             | Sonner (toasts), Google Maps (client-side), Manus plugins (debugging)   |
-
-**Dependencies** (50+): `@radix-ui/*`, `react-hook-form`, `zod`, `axios`, `wouter`, `next-themes`.
 
 ## 🎨 Design Philosophy
 
-**Modern Minimalist with Warm Accents** (from `ideas.md`):
+**Premium Glassmorphism with Warm Brand Heritage**
 
-- **Colors**: Cream bg (#faf8f3), deep navy primary (#1a3a52), terracotta accents (#c85a3a), sage green.
-- **Typography**: Georgia (headings), Poppins (body).
-- **Layout**: Asymmetric grids, generous whitespace, card-based price table (mobile), data grid (desktop).
-- **Interactions**: Smooth fades (0.6s), hover lifts, scroll animations.
-- **Responsive**: Split-screen hero → stacked cards.
-
-## 📁 Project Structure
-
-```
-d:/Muslim Traders manus/
-├── client/              # React app root
-│   ├── src/
-│   │   ├── pages/       # Home.tsx (main), NotFound.tsx
-│   │   ├── components/  # Shadcn/UI (ui/), custom (Map.tsx, ManusDialog.tsx)
-│   │   ├── contexts/    # ThemeContext.tsx
-│   │   └── hooks/       # useMobile.tsx, etc.
-│   ├── public/          # Assets + __manus__/debug-collector.js
-│   └── index.html
-├── server/              # index.ts (Express)
-├── shared/              # const.ts
-├── vite.config.ts       # Tailwind, React plugin, Manus debug
-├── package.json         # pnpm, scripts
-├── vercel.json          # Deployment
-├── ideas.md            # UI brainstorms
-└── TODO.md             # This task tracker
-```
-
-**Key Files**:
-
-- `client/src/pages/Home.tsx`: Core content (price data hardcoded).
-- `client/src/App.tsx`: Router + providers.
-- `vite.config.ts`: Manus debug collector (logs to `.manus-logs/`).
+- **Colors**: Rich dark brown primary (`#3c2415`), warm beige backgrounds (`#f5ebe0`), and high-contrast glowing orange accents (`#e68a00`, `#ff9d2e`).
+- **Typography**: Unified clean geometric look using **Plus Jakarta Sans** across all headings and body copy.
+- **Layout**: Floating frosted glass cards (`.glass`, `.glass-strong`), absolute centered grids, and robust mobile-first responsive scaling.
+- **Interactions**: Smooth entrance fades, floating 3D pills (`.pill-3d`), and deep hover-lift drop shadows.
 
 ## 💼 Business Context
 
 - **Founded**: 1988, Mohallah Eid Gah, Chakwal, Pakistan.
-- **Partners**: PTC (current), past: Haleeb Foods (1988–2008), P&G (1990–2007), Super Crisp (1991–2011).
-- **Operations**: Retail supply, wholesale (filer/non-filer rates), inventory, trade programs.
-- **Network**: 375+ exclusive distributors, 400k+ retail stores.
+- **Leadership**: Abdul Rauf Athar (Founder & Managing Director).
+- **Current Flagship Partner**: Pakistan Tobacco Company (PTC) — the first multinational established in Pakistan (1947).
+- **Past Partnerships**: Haleeb Foods (1988–2008), P&G (1990–2007), Super Crisp (1991–2011).
+- **Network Scope**: 375+ exclusive distributors, 400,000+ retail stores across the region.
 - **Contact**: +92 543 669062 | Mon-Thu/Sat 7:30AM-7:30PM.
-
-## 🔧 Custom Features
-
-### Manus Debug Collector
-
-- Logs browser console/network/session to `.manus-logs/` (auto-trims at 1MB).
-- Dev-only: POST `/__manus__/logs`.
-
-### Google Maps (`Map.tsx`)
-
-- Ready for markers, places, routes (via proxy).
-- Env: `VITE_FRONTEND_FORGE_API_KEY`.
 
 ## 🚀 Deployment
 
@@ -120,28 +77,20 @@ pnpm build:vercel  # Or full build
 vercel --prod
 ```
 
-- `vercel.json` configured.
+- `vercel.json` configured for SPA routing.
 - Prod server bundles to `dist/index.js`.
-
-## 📊 Price Board Data
-
-Hardcoded in `Home.tsx` (20+ SKUs). Example:
-| Brand | Category | Outer Rate | Rate | WS Filer | WS Non-Filer |
-|-------|----------|------------|------|----------|--------------|
-| Dunhill Light | Cigarettes | 5,786 | 28,930 | 28,302 | 28,865 |
-
-**Updated**: 16 Apr 2026.
 
 ## 🤝 Contributing
 
 1. Fork & PR.
-2. `pnpm format` (Prettier).
-3. `pnpm check` (TypeScript).
+2. Ensure you are utilizing the established `.glass` and `.pill-3d` CSS utilities when creating new components to maintain the design system.
+3. `pnpm format` (Prettier).
+4. `pnpm check` (TypeScript).
 
 ## 📄 License
 
-MIT © Muslim Traders v2
+MIT © Muslim Traders
 
 ---
 
-**Built with ❤️ for efficient distributor operations.** Questions? Check `ideas.md` or open an issue.
+**Built with ❤️ to power the next generation of FMCG distribution.**
