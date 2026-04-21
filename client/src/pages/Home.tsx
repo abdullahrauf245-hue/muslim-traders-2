@@ -571,15 +571,15 @@ export default function Home() {
                       sectionRefs.current[index] = el;
                     }}
                     data-index={index}
-                    className={`relative flex items-start mb-20 transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"} ${isLeft ? "flex-row md:pr-[50%] md:justify-end" : "flex-row-reverse md:pl-[50%] md:justify-end"}`}
+                    className={`relative flex items-start mb-20 transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"} ${isLeft ? "flex-col md:flex-row md:pr-[50%] md:justify-end" : "flex-col md:flex-row-reverse md:pl-[50%] md:justify-end"}`}
                   >
-                    <div className="absolute left-6 md:left-1/2 top-8 transform md:-translate-x-1/2 z-10">
+                    <div className="absolute left-[23px] md:left-1/2 top-8 transform -translate-x-1/2 z-10">
                       <div className="tl-dot" />
                       <div className="tl-dot-pulse" />
                     </div>
 
                     <div
-                      className={`glass-strong rounded-3xl p-8 max-w-md w-full ml-16 md:ml-0 ${isLeft ? "md:mr-10" : "md:ml-10"} hover-lift`}
+                      className={`glass-strong rounded-3xl p-6 md:p-8 max-w-md w-[calc(100%-4rem)] ml-16 md:ml-0 ${isLeft ? "md:mr-10" : "md:ml-10"} hover-lift`}
                     >
                       <div className="flex items-baseline gap-3 mb-4">
                         <span className="text-4xl font-bold glow-orange">
@@ -744,8 +744,9 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="overflow-hidden rounded-2xl border border-white/40 glass-light">
-                <div className="overflow-x-auto">
+              <div className="rounded-2xl border border-white/40 glass-light overflow-hidden">
+                {/* Desktop Table */}
+                <div className="overflow-x-auto hidden md:block">
                   <table className="w-full text-left border-collapse min-w-[800px]">
                     <thead>
                       <tr className="bg-primary text-primary-foreground">
@@ -795,6 +796,39 @@ export default function Home() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+
+                {/* Mobile Cards */}
+                <div className="md:hidden flex flex-col divide-y divide-white/20">
+                  {filteredData.map((item, i) => (
+                    <div key={i} className="p-4 flex flex-col gap-3 hover:bg-white/10 transition-colors">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-bold text-primary text-base">{item.brand}</h4>
+                          <span className="pill-3d !py-0.5 !px-2 !text-[10px] mt-2 inline-block">{item.category}</span>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-xs font-bold text-foreground/50 uppercase tracking-wider">Rate</div>
+                          <div className="font-bold glow-orange text-lg">{formatWholeNumber(item.rate)}</div>
+                        </div>
+                      </div>
+                      
+                      <div className="grid grid-cols-3 gap-2 mt-1 pt-3 border-t border-white/10">
+                        <div>
+                          <div className="text-[10px] uppercase font-bold text-foreground/50 mb-1">Outer</div>
+                          <div className="text-sm font-semibold text-foreground/80">{getOuterRate(item)}</div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] uppercase font-bold text-foreground/50 mb-1">WS Filer</div>
+                          <div className="text-sm font-semibold text-foreground/80">{item.wsFiler}</div>
+                        </div>
+                        <div>
+                          <div className="text-[10px] uppercase font-bold text-foreground/50 mb-1">WS Non-Filer</div>
+                          <div className="text-sm font-semibold text-foreground/80">{item.wsNonFiler}</div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
