@@ -1,26 +1,33 @@
-import { useState, useMemo } from 'react';
-import { Filter, MapPin, Menu, Moon, Phone, Search, Sun, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { useTheme } from '@/contexts/ThemeContext';
+import { useState, useMemo, useEffect, useRef } from "react";
+import {
+  Filter,
+  MapPin,
+  Menu,
+  Moon,
+  Phone,
+  Search,
+  Sun,
+  X,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useTheme } from "@/contexts/ThemeContext";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
-/* Design Philosophy: Modern Minimalist with Warm Accents
-   - Warm earthy palette (terracotta #c85a3a, sage #7a9b8e, cream #faf8f3)
-   - Deep navy (#1a3a52) for authority
-   - Asymmetric layouts with generous whitespace
-   - Smooth animations and micro-interactions
-   - Serif headings (Georgia) with clean sans-serif body (Poppins) */
+/* Premium Glassmorphism Design
+   - Beige abstract bg, frosted glass panels, glowing orange 3D
+   - All merged into a single page
+*/
 
 interface PriceItem {
   brand: string;
-  category: 'Cigarettes' | 'Velo';
+  category: "Cigarettes" | "Velo";
   unitRate: string;
   rate: number;
   wsFiler: string;
@@ -28,495 +35,852 @@ interface PriceItem {
 }
 
 const priceData: PriceItem[] = [
-  { brand: 'Dunhill Light', category: 'Cigarettes', unitRate: 'n/a', rate: 28930, wsFiler: '28,302', wsNonFiler: '28,865' },
-  { brand: 'Dunhill Switch', category: 'Cigarettes', unitRate: 'n/a', rate: 31060, wsFiler: '30,396', wsNonFiler: '31,000' },
-  { brand: 'Benson & Hedges', category: 'Cigarettes', unitRate: 'n/a', rate: 13750, wsFiler: '13,432', wsNonFiler: '13,700' },
-  { brand: 'Gold Leaf Classic', category: 'Cigarettes', unitRate: 'n/a', rate: 24490, wsFiler: '23,957', wsNonFiler: '24,435' },
-  { brand: 'Dunhill Special', category: 'Cigarettes', unitRate: 'n/a', rate: 28990, wsFiler: '28,321', wsNonFiler: '28,865' },
-  { brand: 'Capstan by Pall Mall Official', category: 'Cigarettes', unitRate: 'n/a', rate: 12049, wsFiler: '11,295', wsNonFiler: '11,520' },
-  { brand: 'Capstan Filter', category: 'Cigarettes', unitRate: 'n/a', rate: 12040, wsFiler: '11,752', wsNonFiler: '11,986' },
-  { brand: 'John Player', category: 'Cigarettes', unitRate: 'n/a', rate: 12024.85, wsFiler: '11,742', wsNonFiler: '11,976' },
-  { brand: 'Gold Flake Rothmans', category: 'Cigarettes', unitRate: 'n/a', rate: 12049, wsFiler: '11,295', wsNonFiler: '11,520' },
-  { brand: 'Embassy Filter', category: 'Cigarettes', unitRate: 'n/a', rate: 12049, wsFiler: '11,295', wsNonFiler: '11,520' },
-  { brand: 'Capstan International', category: 'Cigarettes', unitRate: 'n/a', rate: 9250.10, wsFiler: '9,045', wsNonFiler: '9,225' },
-  { brand: 'Capstan by Pall Mall Official Elite', category: 'Cigarettes', unitRate: 'n/a', rate: 12598, wsFiler: '11,765', wsNonFiler: '11,999' },
-  { brand: 'Capstan Select', category: 'Cigarettes', unitRate: 'n/a', rate: 8000, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Lucky Strike Berry', category: 'Cigarettes', unitRate: 'n/a', rate: 11200.20, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Lucky Strike Mint', category: 'Cigarettes', unitRate: 'n/a', rate: 11200.20, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Berry Frost 6 MG', category: 'Velo', unitRate: '183.52', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Berry Frost Nano', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Berry Frost 10 MG', category: 'Velo', unitRate: '260.13', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Berry Frost 14 MG', category: 'Velo', unitRate: '183.52', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Polar Mint 6 MG - Nano', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Polar Mint 10 MG', category: 'Velo', unitRate: '260.13', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Polar Mint 14 MG', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Water Melon 10 MG', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Rich Elaichi 10 MG', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Velo Strawberry Ice 10 MG', category: 'Velo', unitRate: '231.34', rate: 12049, wsFiler: '11,295', wsNonFiler: '11,520' },
-  { brand: 'Velo Tropical Ice 10 MG', category: 'Velo', unitRate: '231.34', rate: 12049, wsFiler: '11,295', wsNonFiler: '11,520' },
-  { brand: 'Purple Grape 10 MG', category: 'Velo', unitRate: '231.34', rate: 9250.10, wsFiler: '9,045', wsNonFiler: '9,225' },
-  { brand: 'Purple Grape 6 MG Nano', category: 'Velo', unitRate: '183.52', rate: 12598, wsFiler: '11,765', wsNonFiler: '11,999' },
-  { brand: 'Frosty Lemon 10 MG', category: 'Velo', unitRate: '231.34', rate: 8000, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Mango Flame 14 MG', category: 'Velo', unitRate: '260.13', rate: 11200.20, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Polar Mint 17 MG', category: 'Velo', unitRate: '279', rate: 11200.20, wsFiler: 'n/a', wsNonFiler: 'n/a' },
-  { brand: 'Purple Grape 17 MG', category: 'Velo', unitRate: '279', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  {
+    brand: "Dunhill Light",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 28930,
+    wsFiler: "28,302",
+    wsNonFiler: "28,865",
+  },
+  {
+    brand: "Dunhill Switch",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 31060,
+    wsFiler: "30,396",
+    wsNonFiler: "31,000",
+  },
+  {
+    brand: "Benson & Hedges",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 13750,
+    wsFiler: "13,432",
+    wsNonFiler: "13,700",
+  },
+  {
+    brand: "Gold Leaf Classic",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 24490,
+    wsFiler: "23,957",
+    wsNonFiler: "24,435",
+  },
+  {
+    brand: "Dunhill Special",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 28990,
+    wsFiler: "28,321",
+    wsNonFiler: "28,865",
+  },
+  {
+    brand: "Capstan by Pall Mall Official",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 12049,
+    wsFiler: "11,295",
+    wsNonFiler: "11,520",
+  },
+  {
+    brand: "Capstan Filter",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 12040,
+    wsFiler: "11,752",
+    wsNonFiler: "11,986",
+  },
+  {
+    brand: "John Player",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 12024.85,
+    wsFiler: "11,742",
+    wsNonFiler: "11,976",
+  },
+  {
+    brand: "Gold Flake Rothmans",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 12049,
+    wsFiler: "11,295",
+    wsNonFiler: "11,520",
+  },
+  {
+    brand: "Embassy Filter",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 12049,
+    wsFiler: "11,295",
+    wsNonFiler: "11,520",
+  },
+  {
+    brand: "Capstan International",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 9250.1,
+    wsFiler: "9,045",
+    wsNonFiler: "9,225",
+  },
+  {
+    brand: "Capstan by Pall Mall Official Elite",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 12598,
+    wsFiler: "11,765",
+    wsNonFiler: "11,999",
+  },
+  {
+    brand: "Capstan Select",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 8000,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Lucky Strike Berry",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 11200.2,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Lucky Strike Mint",
+    category: "Cigarettes",
+    unitRate: "n/a",
+    rate: 11200.2,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Berry Frost 6 MG",
+    category: "Velo",
+    unitRate: "183.52",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Berry Frost Nano",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Berry Frost 10 MG",
+    category: "Velo",
+    unitRate: "260.13",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Berry Frost 14 MG",
+    category: "Velo",
+    unitRate: "183.52",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Polar Mint 6 MG - Nano",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Polar Mint 10 MG",
+    category: "Velo",
+    unitRate: "260.13",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Polar Mint 14 MG",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Water Melon 10 MG",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Rich Elaichi 10 MG",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Velo Strawberry Ice 10 MG",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 12049,
+    wsFiler: "11,295",
+    wsNonFiler: "11,520",
+  },
+  {
+    brand: "Velo Tropical Ice 10 MG",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 12049,
+    wsFiler: "11,295",
+    wsNonFiler: "11,520",
+  },
+  {
+    brand: "Purple Grape 10 MG",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 9250.1,
+    wsFiler: "9,045",
+    wsNonFiler: "9,225",
+  },
+  {
+    brand: "Purple Grape 6 MG Nano",
+    category: "Velo",
+    unitRate: "183.52",
+    rate: 12598,
+    wsFiler: "11,765",
+    wsNonFiler: "11,999",
+  },
+  {
+    brand: "Frosty Lemon 10 MG",
+    category: "Velo",
+    unitRate: "231.34",
+    rate: 8000,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Mango Flame 14 MG",
+    category: "Velo",
+    unitRate: "260.13",
+    rate: 11200.2,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Polar Mint 17 MG",
+    category: "Velo",
+    unitRate: "279",
+    rate: 11200.2,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+  {
+    brand: "Purple Grape 17 MG",
+    category: "Velo",
+    unitRate: "279",
+    rate: 0,
+    wsFiler: "n/a",
+    wsNonFiler: "n/a",
+  },
+];
+
+const timelineData = [
+  {
+    year: "1988",
+    endYear: "2008",
+    business: "Haleeb Foods",
+    detail:
+      "Started distribution operations in 1988 as a distribution partner for Haleeb Foods, building the foundation of a trusted supply chain across Chakwal.",
+    brands: ["Haleeb", "Good Milk", "Candia"],
+  },
+  {
+    year: "1990",
+    endYear: "2007",
+    business: "Procter & Gamble",
+    detail:
+      "Handled distribution from 1990, expanding our reach to FMCG retail and wholesale channels. Our disciplined market coverage earned global trust.",
+    brands: ["Ariel", "Safeguard", "Pantene", "Head & Shoulders"],
+  },
+  {
+    year: "1991",
+    endYear: "2011",
+    business: "Super Crisp Industries",
+    detail:
+      "Brought into the portfolio in 1991. Over two decades, we managed inventory, retail placement, and trade programs for their snacks.",
+    brands: ["Super Crisp", "Kurleez", "Lays"],
+  },
+  {
+    year: "2007",
+    endYear: "Present",
+    business: "PTC",
+    detail:
+      "Joined in 2007. As an exclusive PTC distributor, we manage local distribution for premium tobacco and nicotine pouch brands.",
+    brands: [
+      "Dunhill",
+      "Benson & Hedges",
+      "Gold Leaf",
+      "Capstan",
+      "John Player",
+      "Embassy",
+      "Lucky Strike",
+      "Velo",
+    ],
+  },
 ];
 
 export default function Home() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme, switchable } = useTheme();
 
-  const businessTimeline = [
-    {
-      business: 'Haleeb Foods',
-      started: '1988',
-      ended: '2008',
-      detail: 'Started distribution operations in 1988 and completed this partnership in 2008.',
-    },
-    {
-      business: 'Procter & Gamble',
-      started: '1990',
-      ended: '2007',
-      detail: 'Handled distribution from 1990 and remained active until 2007.',
-    },
-    {
-      business: 'Super Crisp Industries',
-      started: '1991',
-      ended: '2011',
-      detail: 'Brought into the portfolio in 1991 and served this channel through 2011.',
-    },
-    {
-      business: 'PTC',
-      started: '2007',
-      ended: 'Present',
-      detail: 'Joined in 2007 and continuing distribution work since then.',
-    },
-  ];
+  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [visibleSections, setVisibleSections] = useState<Set<number>>(
+    new Set()
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => {
+          const index = Number(entry.target.getAttribute("data-index"));
+          setVisibleSections(prev => {
+            const next = new Set(prev);
+            if (entry.isIntersecting) next.add(index);
+            return next;
+          });
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
+    );
+    sectionRefs.current.forEach(ref => ref && observer.observe(ref));
+    return () => observer.disconnect();
+  }, []);
 
   const navLinks = [
-    { href: '#journey', label: 'Journey' },
-    { href: '#operations', label: 'Operations' },
-    { href: '#price-board', label: 'Price Board' },
-    { href: '#portfolio', label: 'Portfolio' },
-    { href: '#contact', label: 'Contact' },
+    { href: "#journey", label: "Journey" },
+    { href: "#operations", label: "Operations" },
+    { href: "#price-board", label: "Price Board" },
+    { href: "#portfolio", label: "Portfolio" },
+    { href: "#contact", label: "Contact" },
   ];
 
-  const formatWholeNumber = (value: number) => Math.trunc(value).toLocaleString();
+  const formatWholeNumber = (value: number) =>
+    Math.trunc(value).toLocaleString();
 
   const filteredData = useMemo(() => {
-    return priceData.filter((item) => {
-      const matchesSearch = item.brand.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesCategory = categoryFilter === 'all' || item.category.toLowerCase() === categoryFilter.toLowerCase();
+    return priceData.filter(item => {
+      const matchesSearch = item.brand
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        categoryFilter === "all" ||
+        item.category.toLowerCase() === categoryFilter.toLowerCase();
       return matchesSearch && matchesCategory;
     });
   }, [searchTerm, categoryFilter]);
 
   const stats = useMemo(() => {
-    const validRates = filteredData.filter((item) => item.rate > 0).map((item) => item.rate);
-    const avgRate = validRates.length > 0 ? formatWholeNumber(validRates.reduce((a, b) => a + b, 0) / validRates.length) : '0';
+    const validRates = filteredData
+      .filter(item => item.rate > 0)
+      .map(item => item.rate);
+    const avgRate =
+      validRates.length > 0
+        ? formatWholeNumber(
+            validRates.reduce((a, b) => a + b, 0) / validRates.length
+          )
+        : "0";
     const maxRate = validRates.length > 0 ? Math.max(...validRates) : 0;
     const minRate = validRates.length > 0 ? Math.min(...validRates) : 0;
 
-    const maxItem = filteredData.find((item) => item.rate === maxRate);
-    const minItem = filteredData.find((item) => item.rate === minRate);
+    const maxItem = filteredData.find(item => item.rate === maxRate);
+    const minItem = filteredData.find(item => item.rate === minRate);
 
     return {
       visibleSkus: filteredData.length,
       averageRate: avgRate,
-      highestRate: maxItem ? `${maxItem.brand} (${formatWholeNumber(maxRate)})` : 'N/A',
-      lowestRate: minItem ? `${minItem.brand} (${formatWholeNumber(minRate)})` : 'N/A',
+      highestRate: maxItem
+        ? `${maxItem.brand} (${formatWholeNumber(maxRate)})`
+        : "N/A",
+      lowestRate: minItem
+        ? `${minItem.brand} (${formatWholeNumber(minRate)})`
+        : "N/A",
     };
   }, [filteredData]);
 
   const getOuterRate = (item: PriceItem) => {
-    const outerRate = item.category === 'Cigarettes' ? item.rate / 5 : Number(item.unitRate);
+    const outerRate =
+      item.category === "Cigarettes" ? item.rate / 5 : Number(item.unitRate);
     if (Number.isNaN(outerRate)) {
       return item.unitRate;
     }
-
     return formatWholeNumber(outerRate);
   };
 
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-card/95 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-card/85">
-        <div className="container flex items-center justify-between py-3">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-white font-bold text-base sm:text-lg">MT</span>
+    <div className="min-h-screen bg-transparent overflow-x-hidden relative">
+      <div className="bg-shapes">
+        <div className="bg-shape bg-shape-1" />
+        <div className="bg-shape bg-shape-2" />
+        <div className="bg-shape bg-shape-3" />
+        <div className="bg-shape bg-shape-4" />
+      </div>
+
+      <div className="relative z-10">
+        <nav className="sticky top-0 z-50 glass rounded-b-2xl mx-2 sm:mx-4 mt-2">
+          <div className="container flex items-center justify-between py-3 px-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg">
+                <span className="text-primary-foreground font-bold text-lg">
+                  MT
+                </span>
+              </div>
+              <h1 className="text-xl font-bold text-primary">Muslim Traders</h1>
             </div>
-            <h1 className="text-base sm:text-xl font-bold text-primary">Muslim Traders</h1>
+            <div className="flex items-center gap-3">
+              <div className="hidden items-center gap-6 md:flex">
+                {navLinks.map(link => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    className="text-sm font-semibold text-foreground hover:text-accent transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+              {switchable && toggleTheme && (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={toggleTheme}
+                  aria-label="Toggle Theme"
+                  className="h-10 w-10 rounded-full glass-light border-border/50 text-foreground hover:bg-white/20"
+                >
+                  {theme === "light" ? (
+                    <Moon className="h-5 w-5" />
+                  ) : (
+                    <Sun className="h-5 w-5" />
+                  )}
+                </Button>
+              )}
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="h-10 w-10 md:hidden glass-light rounded-full"
+                onClick={() => setIsMobileMenuOpen(prev => !prev)}
+              >
+                {isMobileMenuOpen ? (
+                  <X className="h-5 w-5" />
+                ) : (
+                  <Menu className="h-5 w-5" />
+                )}
+              </Button>
+            </div>
           </div>
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="hidden items-center gap-6 md:flex">
-              {navLinks.map((link) => (
-                <a key={link.href} href={link.href} className="text-sm font-medium text-foreground hover:text-accent transition-colors">
+          <div
+            className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${isMobileMenuOpen ? "max-h-80 opacity-100 border-t border-white/20" : "max-h-0 opacity-0"}`}
+          >
+            <div className="container flex flex-col py-3 px-4">
+              {navLinks.map(link => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="rounded-xl px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/20 hover:text-accent"
+                >
                   {link.label}
                 </a>
               ))}
             </div>
-            {switchable && toggleTheme && (
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={toggleTheme}
-                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                className="h-8 w-8 sm:h-9 sm:w-9 rounded-full border-border bg-background/80 hover:bg-muted"
-              >
-                {theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
-              </Button>
-            )}
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8 md:hidden"
-              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-              aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              aria-expanded={isMobileMenuOpen}
-            >
-              {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-            </Button>
           </div>
-        </div>
-        <div
-          className={`md:hidden overflow-hidden border-t border-border bg-card/95 transition-[max-height,opacity] duration-300 ease-out ${
-            isMobileMenuOpen ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
-          }`}
-        >
-          <div className="container flex flex-col py-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="rounded-md px-2 py-2 text-sm font-medium text-foreground transition-colors hover:bg-muted hover:text-accent"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </div>
-      </nav>
+        </nav>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        <div className="relative container py-10 sm:py-14 md:py-20 grid md:grid-cols-2 gap-8 md:gap-10 items-center">
+        <section className="relative container py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
           <div className="fade-in">
-            <div className="text-sm font-semibold text-accent mb-4 tracking-wide">OFFICIAL PTC DISTRIBUTOR</div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-4 sm:mb-5 leading-tight">
-              Muslim Traders
+            <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6">
+              EST. 1988 · CHAKWAL, PAKISTAN
+            </div>
+            <h1 className="text-5xl md:text-6xl font-bold text-primary mb-6 leading-tight">
+              A Legacy of <span className="glow-orange">Trust</span>
             </h1>
-            <p className="text-sm sm:text-base text-foreground/80 mb-6 leading-relaxed max-w-lg">
-              The place where you can place your trust. Started in 1988, Muslim Traders has built a reliable distribution network through long-term partnerships and disciplined market service.
+            <p className="text-lg text-foreground/80 mb-8 leading-relaxed max-w-lg font-medium">
+              Muslim Traders has built a reliable distribution network through
+              long-term partnerships and disciplined market service for over
+              three decades.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <Button className="btn-primary w-full sm:w-auto">Get Started</Button>
-              <Button variant="outline" className="border-accent text-accent hover:bg-accent/10 w-full sm:w-auto">Learn More</Button>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button className="btn-primary">View Portfolio</button>
+              <button className="btn-outline">Contact Us</button>
             </div>
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            <div className="bg-card rounded-xl p-5 sm:p-6 shadow-sm border border-border hover-lift">
-              <div className="text-2xl sm:text-3xl font-bold text-accent mb-2">375</div>
-              <p className="text-sm sm:text-base text-foreground/80">Exclusive distributors in the PTC network nationwide</p>
+          <div className="grid grid-cols-1 gap-6 fade-in-d1">
+            <div className="glass rounded-2xl p-6 hover-lift relative overflow-hidden">
+              <div className="text-4xl font-bold glow-orange mb-2">375</div>
+              <p className="text-foreground/80 font-medium">
+                Exclusive distributors in the PTC network
+              </p>
             </div>
-            <div className="bg-card rounded-xl p-5 sm:p-6 shadow-sm border border-border hover-lift">
-              <div className="text-2xl sm:text-3xl font-bold text-secondary mb-2">400,000+</div>
-              <p className="text-sm sm:text-base text-foreground/80">Retail stores supported across Pakistan by the network</p>
-            </div>
-            <div className="bg-card rounded-xl p-5 sm:p-6 shadow-sm border border-border hover-lift">
-              <div className="text-base sm:text-lg font-bold text-primary mb-2">Strict Compliance</div>
-              <p className="text-sm sm:text-base text-foreground/80">Track-and-trace linked distribution with tax-documented supply</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Company Journey Section */}
-      <section id="journey" className="py-10 sm:py-14 md:py-20 bg-card">
-        <div className="container">
-          <div className="mb-6 sm:mb-8">
-            <div className="text-sm font-semibold text-accent mb-4 tracking-wide">TRUSTED JOURNEY SINCE 1988</div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4">The Place Where Businesses Place Their Trust</h2>
-            <p className="text-sm sm:text-base text-foreground/70 max-w-3xl leading-relaxed">
-              Muslim Traders started in 1988 and has consistently delivered distribution support across leading brands. Our history reflects long-term relationships, clear performance, and continuity in market coverage.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 gap-5">
-            {businessTimeline.map((item) => (
-              <div key={item.business} className="rounded-xl border border-border bg-background p-4 sm:p-5 hover-lift">
-                <div className="flex flex-col items-start sm:flex-row sm:items-center sm:justify-between gap-3 mb-3">
-                  <h3 className="text-lg sm:text-xl font-bold text-primary">{item.business}</h3>
-                  <span className="rounded-full bg-accent/10 text-accent px-3 sm:px-4 py-1 text-xs sm:text-sm font-semibold">
-                    {item.started} - {item.ended}
-                  </span>
-                </div>
-                <p className="text-sm sm:text-base text-foreground/70 leading-relaxed">{item.detail}</p>
+            <div className="glass rounded-2xl p-6 hover-lift relative overflow-hidden">
+              <div className="text-4xl font-bold glow-orange mb-2">
+                400,000+
               </div>
-            ))}
-          </div>
-
-          <div className="mt-8 text-center">
-            <a
-              href="/timeline"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-accent-foreground font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:scale-105"
-            >
-              View Full Interactive Timeline →
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Operations Section */}
-      <section id="operations" className="relative overflow-hidden py-10 sm:py-14 md:py-20 bg-card">
-        <div className="relative container">
-          <div className="mb-8 sm:mb-10">
-            <div className="text-sm font-semibold text-accent mb-4 tracking-wide">CORE BUSINESS OPERATIONS</div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary">How Muslim Traders Runs Local Distribution</h2>
-          </div>
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              {
-                title: 'Retail Supply Chain',
-                description: 'Field representatives visit shops, capture orders, monitor inventory, and support consistent shelf availability.',
-              },
-              {
-                title: 'Wholesale Fulfillment',
-                description: 'Bulk inventory is supplied to smaller wholesalers and general stores in Chakwal at company-regulated rates.',
-              },
-              {
-                title: 'Inventory And Security',
-                description: 'Warehouse stock is received from PTC-linked production sources and stored under controlled handling conditions.',
-              },
-              {
-                title: 'Trade Program Support',
-                description: 'Retail engagement programs are implemented with performance-linked incentives and display standards.',
-              },
-            ].map((operation, index) => (
-              <div
-                key={index}
-                className="bg-background rounded-xl p-5 sm:p-6 border-l-4 border-accent hover-lift"
-              >
-                <h3 className="text-lg sm:text-xl font-bold text-primary mb-3">{operation.title}</h3>
-                <p className="text-sm sm:text-base text-foreground/70 leading-relaxed">{operation.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Price Board Section */}
-      <section id="price-board" className="py-10 sm:py-14 md:py-20 bg-background">
-        <div className="container">
-          <div className="mb-8">
-            <div className="text-sm font-semibold text-accent mb-4 tracking-wide">PRICE CATALOG</div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4">PTC Cigarettes + Velo Price Board</h2>
-            <p className="text-sm sm:text-base text-foreground/70">
-              All figures are in PKR based on your provided sheet. Rate is fixed. WS means wholesale, filer means FBR-registered, and non-filer means not registered.
-            </p>
-          </div>
-
-          {/* Search and Filter */}
-          <div className="flex flex-col sm:flex-row gap-4 mb-6">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
-              <Input
-                placeholder="Search brand (e.g., Dunhill, Capstan, Velo)"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="pl-10"
-              />
+              <p className="text-foreground/80 font-medium">
+                Retail stores supported across Pakistan
+              </p>
             </div>
-            <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-              <SelectTrigger className="w-full sm:w-48">
-                <Filter className="w-4 h-4 mr-2" />
-                <SelectValue placeholder="Filter by category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All categories</SelectItem>
-                <SelectItem value="cigarettes">Cigarettes</SelectItem>
-                <SelectItem value="velo">Velo</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
+        </section>
 
-          {/* Price Table */}
-          <div className="md:hidden space-y-3">
-            {filteredData.map((item, index) => (
-              <article key={`${item.brand}-${index}`} className="rounded-xl border border-border bg-card p-4">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="text-sm font-semibold text-primary leading-snug">{item.brand}</h3>
-                  <span className={`inline-block rounded-full px-2.5 py-1 text-xs font-medium ${
-                    item.category === 'Cigarettes'
-                      ? 'bg-accent/10 text-accent'
-                      : 'bg-secondary/10 text-secondary'
-                  }`}>
-                    {item.category}
-                  </span>
-                </div>
-                <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-                  <div>
-                    <dt className="text-foreground/60">Outer Rate</dt>
-                    <dd className="font-semibold text-primary">{getOuterRate(item)}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-foreground/60">Rate</dt>
-                    <dd className="font-semibold text-primary">{formatWholeNumber(item.rate)}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-foreground/60">WS Filer</dt>
-                    <dd className="text-foreground/80">{item.wsFiler}</dd>
-                  </div>
-                  <div>
-                    <dt className="text-foreground/60">WS Non Filer</dt>
-                    <dd className="text-foreground/80">{item.wsNonFiler}</dd>
-                  </div>
-                </dl>
-              </article>
-            ))}
-          </div>
+        <section id="journey" className="py-20 relative">
+          <div className="container">
+            <div className="text-center mb-16 fade-in-d2">
+              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
+                OUR JOURNEY
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+                Through the Decades
+              </h2>
+              <p className="text-foreground/80 max-w-2xl mx-auto font-medium">
+                Every partnership tells a story of trust, growth, and market
+                excellence.
+              </p>
+            </div>
 
-          <div className="hidden md:block overflow-x-auto rounded-xl border border-border bg-card">
-            <table className="w-full min-w-[760px] text-sm sm:text-base">
-              <thead className="bg-primary text-primary-foreground">
-                <tr>
-                  <th className="px-3 sm:px-4 py-3 text-left font-semibold">Brand</th>
-                  <th className="px-3 sm:px-4 py-3 text-left font-semibold">Category</th>
-                  <th className="px-3 sm:px-4 py-3 text-right font-semibold">Outer Rate</th>
-                  <th className="px-3 sm:px-4 py-3 text-right font-semibold">Rate</th>
-                  <th className="px-3 sm:px-4 py-3 text-right font-semibold">WS Filer</th>
-                  <th className="px-3 sm:px-4 py-3 text-right font-semibold">WS Non Filer</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredData.map((item, index) => (
-                  <tr
-                    key={index}
-                    className="border-t border-border hover:bg-muted/50 transition-colors"
+            <div className="relative max-w-4xl mx-auto py-10">
+              <div className="tl-line" />
+              {timelineData.map((entry, index) => {
+                const isLeft = index % 2 === 0;
+                const isVisible = visibleSections.has(index);
+
+                return (
+                  <div
+                    key={entry.year}
+                    ref={el => {
+                      sectionRefs.current[index] = el;
+                    }}
+                    data-index={index}
+                    className={`relative flex items-start mb-20 transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"} ${isLeft ? "flex-row md:pr-[50%] md:justify-end" : "flex-row-reverse md:pl-[50%] md:justify-end"}`}
                   >
-                    <td className="px-3 sm:px-4 py-3 font-medium text-foreground whitespace-nowrap">{item.brand}</td>
-                    <td className="px-3 sm:px-4 py-3 text-foreground/70">
-                      <span className={`inline-block px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${
-                        item.category === 'Cigarettes'
-                          ? 'bg-accent/10 text-accent'
-                          : 'bg-secondary/10 text-secondary'
-                      }`}>
-                        {item.category}
-                      </span>
-                    </td>
-                    <td className="px-3 sm:px-4 py-3 text-right text-foreground/70">{getOuterRate(item)}</td>
-                    <td className="px-3 sm:px-4 py-3 text-right font-semibold text-primary">{formatWholeNumber(item.rate)}</td>
-                    <td className="px-3 sm:px-4 py-3 text-right text-foreground/70">{item.wsFiler}</td>
-                    <td className="px-3 sm:px-4 py-3 text-right text-foreground/70">{item.wsNonFiler}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                    <div className="absolute left-6 md:left-1/2 top-8 transform md:-translate-x-1/2 z-10">
+                      <div className="tl-dot" />
+                      <div className="tl-dot-pulse" />
+                    </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
-            <div className="bg-card rounded-lg p-4 border border-border text-center">
-              <div className="text-2xl font-bold text-accent mb-1">{stats.visibleSkus}</div>
-              <p className="text-sm text-foreground/70">Visible SKUs</p>
-            </div>
-            <div className="bg-card rounded-lg p-4 border border-border text-center">
-              <div className="text-2xl font-bold text-secondary mb-1">{stats.averageRate}</div>
-              <p className="text-sm text-foreground/70">Average Outer Rate</p>
-            </div>
-            <div className="bg-card rounded-lg p-4 border border-border text-center">
-              <div className="text-base sm:text-lg font-bold text-primary mb-2 break-words">{stats.highestRate}</div>
-              <p className="text-sm text-foreground/70">Highest Rate</p>
-            </div>
-            <div className="bg-card rounded-lg p-4 border border-border text-center">
-              <div className="text-base sm:text-lg font-bold text-primary mb-2 break-words">{stats.lowestRate}</div>
-              <p className="text-sm text-foreground/70">Lowest Rate</p>
-            </div>
-          </div>
-          <p className="text-xs text-foreground/50 mt-4">Sheet updated: 16 Apr 2026. Unlabeled sheet value captured: 170.</p>
-        </div>
-      </section>
-
-      {/* Portfolio Section */}
-      <section id="portfolio" className="py-10 sm:py-14 md:py-20 bg-card">
-        <div className="container">
-          <div className="mb-8">
-            <div className="text-sm font-semibold text-accent mb-4 tracking-wide">BRAND PORTFOLIO</div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary mb-4">Major PTC-Owned Lines Supported</h2>
-            <p className="text-sm sm:text-base text-foreground/70">
-              Alongside listed SKUs in the price board, Muslim Traders handles local channel support for premium and mass market labels.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            {['Dunhill', 'Benson & Hedges', 'John Player', 'Gold Leaf', 'Capstan', 'Embassy', 'Lucky Strike', 'Velo'].map((brand) => (
-              <div
-                key={brand}
-                className="px-3 sm:px-4 py-2 bg-background border border-accent rounded-full text-xs sm:text-sm font-semibold text-primary hover:bg-accent hover:text-accent-foreground transition-all duration-300 cursor-pointer"
-              >
-                {brand}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-10 sm:py-14 md:py-20 bg-primary text-primary-foreground">
-        <div className="container">
-          <div className="grid md:grid-cols-2 gap-8">
-            <div>
-              <div className="text-sm font-semibold mb-4 tracking-wide opacity-90">CONTACT AND ACCESS</div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-6">Muslim Traders, Mohallah Eid Gah</h2>
-              <div className="space-y-4">
-                <div className="flex items-start gap-4">
-                  <MapPin className="w-5 h-5 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold mb-1">Location</p>
-                    <p className="opacity-90">Chakwal, Pakistan</p>
+                    <div
+                      className={`glass-strong rounded-3xl p-8 max-w-md w-full ml-16 md:ml-0 ${isLeft ? "md:mr-10" : "md:ml-10"} hover-lift`}
+                    >
+                      <div className="flex items-baseline gap-3 mb-4">
+                        <span className="text-4xl font-bold glow-orange">
+                          {entry.year}
+                        </span>
+                        <span className="text-2xl text-accent/50">—</span>
+                        <span className="text-2xl font-bold glow-orange opacity-80">
+                          {entry.endYear}
+                        </span>
+                      </div>
+                      <h3 className="text-2xl font-bold text-primary mb-3">
+                        {entry.business}
+                      </h3>
+                      <p className="text-foreground/80 mb-6 leading-relaxed text-sm">
+                        {entry.detail}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {entry.brands.map(brand => (
+                          <span key={brand} className="pill-3d">
+                            {brand}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Phone className="w-5 h-5 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="font-semibold mb-1">Phone</p>
-                    <a href="tel:+92543669062" className="opacity-90 hover:opacity-100 transition-opacity">
-                      +92 543 669062
-                    </a>
-                  </div>
-                </div>
-              </div>
+                );
+              })}
             </div>
-            <div>
-              <div className="text-sm font-semibold mb-6 tracking-wide opacity-90">BUSINESS HOURS</div>
-              <div className="space-y-4">
+          </div>
+        </section>
+
+        <section id="operations" className="py-20 relative">
+          <div className="container">
+            <div className="text-center mb-16">
+              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
+                OPERATIONS
+              </div>
+              <h2 className="text-4xl md:text-5xl font-bold text-primary">
+                Core Business Operations
+              </h2>
+            </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              {[
+                {
+                  title: "Retail Supply Chain",
+                  desc: "Field representatives visit shops, capture orders, monitor inventory, and support consistent shelf availability.",
+                },
+                {
+                  title: "Wholesale Fulfillment",
+                  desc: "Bulk inventory is supplied to smaller wholesalers and general stores in Chakwal at company-regulated rates.",
+                },
+                {
+                  title: "Inventory And Security",
+                  desc: "Warehouse stock is received from PTC-linked production sources and stored under controlled handling conditions.",
+                },
+                {
+                  title: "Trade Program Support",
+                  desc: "Retail engagement programs are implemented with performance-linked incentives and display standards.",
+                },
+              ].map((op, i) => (
+                <div key={i} className="glass rounded-3xl p-8 hover-lift">
+                  <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-3">
+                    <span className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm">
+                      {i + 1}
+                    </span>
+                    {op.title}
+                  </h3>
+                  <p className="text-foreground/80 leading-relaxed font-medium">
+                    {op.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="price-board" className="py-20 relative">
+          <div className="container">
+            <div className="glass-strong rounded-[2.5rem] p-6 sm:p-10">
+              <div className="mb-10 text-center">
+                <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
+                  PRICE CATALOG
+                </div>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-4">
+                  Official Price Board
+                </h2>
+                <p className="text-foreground/80 max-w-2xl mx-auto font-medium">
+                  Cigarettes and Velo rates in PKR. All figures are regulated
+                  wholesale & retail prices.
+                </p>
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-4 mb-8">
+                <div className="flex-1 relative">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/50 w-5 h-5" />
+                  <Input
+                    placeholder="Search brand (e.g., Dunhill, Velo)"
+                    value={searchTerm}
+                    onChange={e => setSearchTerm(e.target.value)}
+                    className="pl-12 h-14 bg-white/40 border-white/50 rounded-2xl text-base font-medium shadow-inner"
+                  />
+                </div>
+                <Select
+                  value={categoryFilter}
+                  onValueChange={setCategoryFilter}
+                >
+                  <SelectTrigger className="w-full md:w-56 h-14 bg-white/40 border-white/50 rounded-2xl font-medium shadow-inner">
+                    <Filter className="w-4 h-4 mr-2 text-foreground/50" />
+                    <SelectValue placeholder="Category" />
+                  </SelectTrigger>
+                  <SelectContent className="rounded-xl border-white/50 bg-white/90 backdrop-blur-xl">
+                    <SelectItem value="all">All categories</SelectItem>
+                    <SelectItem value="cigarettes">Cigarettes</SelectItem>
+                    <SelectItem value="velo">Velo</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {[
-                  { day: 'Mon - Thu', hours: '7:30 AM - 7:30 PM' },
-                  { day: 'Friday', hours: '7:00 AM - 5:00 PM' },
-                  { day: 'Saturday', hours: '7:30 AM - 7:30 PM' },
-                  { day: 'Sunday', hours: 'Closed' },
-                ].map((schedule, index) => (
-                  <div key={index} className="flex flex-col gap-1 sm:flex-row sm:justify-between sm:items-center pb-4 border-b border-primary-foreground/20">
-                    <span className="font-medium">{schedule.day}</span>
-                    <span className="opacity-90">{schedule.hours}</span>
+                  { label: "Visible SKUs", value: stats.visibleSkus },
+                  { label: "Avg Rate", value: stats.averageRate },
+                  { label: "Highest", value: stats.highestRate },
+                  { label: "Lowest", value: stats.lowestRate },
+                ].map((stat, i) => (
+                  <div
+                    key={i}
+                    className="glass-light rounded-2xl p-5 text-center hover-lift"
+                  >
+                    <div className="text-xl font-bold glow-orange mb-1 truncate px-2">
+                      {stat.value}
+                    </div>
+                    <div className="text-xs font-bold text-foreground/60 uppercase tracking-wider">
+                      {stat.label}
+                    </div>
                   </div>
+                ))}
+              </div>
+
+              <div className="overflow-hidden rounded-2xl border border-white/40 glass-light">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse min-w-[800px]">
+                    <thead>
+                      <tr className="bg-primary text-primary-foreground">
+                        <th className="p-4 font-semibold text-sm">Brand</th>
+                        <th className="p-4 font-semibold text-sm">Category</th>
+                        <th className="p-4 font-semibold text-sm text-right">
+                          Outer Rate
+                        </th>
+                        <th className="p-4 font-semibold text-sm text-right">
+                          Rate
+                        </th>
+                        <th className="p-4 font-semibold text-sm text-right">
+                          WS Filer
+                        </th>
+                        <th className="p-4 font-semibold text-sm text-right">
+                          WS Non Filer
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-white/20">
+                      {filteredData.map((item, i) => (
+                        <tr
+                          key={i}
+                          className="hover:bg-white/20 transition-colors"
+                        >
+                          <td className="p-4 font-bold text-primary">
+                            {item.brand}
+                          </td>
+                          <td className="p-4">
+                            <span className="pill-3d !py-1 !text-xs">
+                              {item.category}
+                            </span>
+                          </td>
+                          <td className="p-4 text-right font-medium text-foreground/80">
+                            {getOuterRate(item)}
+                          </td>
+                          <td className="p-4 text-right font-bold glow-orange">
+                            {formatWholeNumber(item.rate)}
+                          </td>
+                          <td className="p-4 text-right font-medium text-foreground/80">
+                            {item.wsFiler}
+                          </td>
+                          <td className="p-4 text-right font-medium text-foreground/80">
+                            {item.wsNonFiler}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="portfolio" className="py-20 relative">
+          <div className="container">
+            <div className="glass rounded-[2.5rem] p-10 text-center max-w-4xl mx-auto">
+              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6">
+                BRAND PORTFOLIO
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8">
+                Major PTC-Owned Lines Supported
+              </h2>
+              <div className="flex flex-wrap justify-center gap-4">
+                {[
+                  "Dunhill",
+                  "Benson & Hedges",
+                  "John Player",
+                  "Gold Leaf",
+                  "Capstan",
+                  "Embassy",
+                  "Lucky Strike",
+                  "Velo",
+                ].map(brand => (
+                  <span
+                    key={brand}
+                    className="pill-3d !text-sm !px-6 !py-2 !font-bold scale-110 m-2"
+                  >
+                    {brand}
+                  </span>
                 ))}
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Footer */}
-      <footer className="bg-background border-t border-border py-6 sm:py-8">
-        <div className="container text-center text-foreground/60 text-xs sm:text-sm">
-          <p>Muslim Traders | Official distributor operations page for trade information and price visibility.</p>
-        </div>
-      </footer>
+        <section id="contact" className="py-24 relative">
+          <div className="container">
+            <div className="glass-strong rounded-[3rem] p-10 sm:p-16 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+              <div className="grid md:grid-cols-2 gap-16 relative z-10">
+                <div>
+                  <h2 className="text-4xl md:text-5xl font-bold text-primary mb-8">
+                    Get in Touch
+                  </h2>
+                  <div className="space-y-8">
+                    <div className="flex gap-5 items-start">
+                      <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center shrink-0 shadow-sm">
+                        <MapPin className="w-6 h-6 text-accent" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-foreground/60 uppercase tracking-widest mb-1">
+                          Location
+                        </p>
+                        <p className="text-lg font-semibold text-primary">
+                          Mohallah Eid Gah, Chakwal, Pakistan
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-5 items-start">
+                      <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center shrink-0 shadow-sm">
+                        <Phone className="w-6 h-6 text-accent" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-bold text-foreground/60 uppercase tracking-widest mb-1">
+                          Phone
+                        </p>
+                        <a
+                          href="tel:+92543669062"
+                          className="text-xl font-bold glow-orange hover:opacity-80 transition-opacity"
+                        >
+                          +92 543 669062
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <h3 className="text-2xl font-bold text-primary mb-6">
+                    Business Hours
+                  </h3>
+                  <div className="space-y-4">
+                    {[
+                      { day: "Mon - Thu", hours: "7:30 AM - 7:30 PM" },
+                      { day: "Friday", hours: "7:00 AM - 5:00 PM" },
+                      { day: "Saturday", hours: "7:30 AM - 7:30 PM" },
+                      { day: "Sunday", hours: "Closed" },
+                    ].map((s, i) => (
+                      <div
+                        key={i}
+                        className="flex justify-between items-center p-4 rounded-2xl glass-light"
+                      >
+                        <span className="font-bold text-primary">{s.day}</span>
+                        <span className="font-medium text-foreground/80">
+                          {s.hours}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <footer className="py-8 text-center text-foreground/60 font-medium">
+          <p>Muslim Traders | Official PTC Distributor Operations</p>
+        </footer>
+      </div>
     </div>
   );
 }

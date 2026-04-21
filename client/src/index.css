@@ -122,7 +122,9 @@
   * {
     @apply border-border outline-ring/50;
   }
-  html, body, #root {
+  html,
+  body,
+  #root {
     width: 100%;
     overflow-x: hidden;
   }
@@ -134,15 +136,37 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #f5ebe0 0%, #ede0d4 30%, #e6ccb2 60%, #f5ebe0 100%);
+    font-family:
+      "Poppins",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      sans-serif;
+    background: linear-gradient(
+      135deg,
+      #f5ebe0 0%,
+      #ede0d4 30%,
+      #e6ccb2 60%,
+      #f5ebe0 100%
+    );
     background-attachment: fixed;
   }
   .dark body {
-    background: linear-gradient(135deg, #1a1008 0%, #201510 30%, #2a1a0e 60%, #1a1008 100%);
+    background: linear-gradient(
+      135deg,
+      #1a1008 0%,
+      #201510 30%,
+      #2a1a0e 60%,
+      #1a1008 100%
+    );
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Georgia', 'Georgia Pro', serif;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Georgia", "Georgia Pro", serif;
     font-weight: 700;
     letter-spacing: -0.5px;
   }
@@ -168,13 +192,23 @@
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  .flex { min-height: 0; min-width: 0; }
+  .flex {
+    min-height: 0;
+    min-width: 0;
+  }
 
   @media (min-width: 640px) {
-    .container { padding-left: 1.75rem; padding-right: 1.75rem; }
+    .container {
+      padding-left: 1.75rem;
+      padding-right: 1.75rem;
+    }
   }
   @media (min-width: 1024px) {
-    .container { padding-left: 2.5rem; padding-right: 2.5rem; max-width: 1024px; }
+    .container {
+      padding-left: 2.5rem;
+      padding-right: 2.5rem;
+      max-width: 1024px;
+    }
   }
 
   /* ── Frosted Glass Panel ─────────────────────────── */
@@ -238,34 +272,56 @@
     font-size: 0.78rem;
     font-weight: 600;
     color: #5c3d1e;
-    background: linear-gradient(135deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.2) 100%);
-    border: 1px solid rgba(255,255,255,0.55);
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.5) 0%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.55);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.7);
+    box-shadow:
+      0 2px 8px rgba(0, 0, 0, 0.04),
+      inset 0 1px 0 rgba(255, 255, 255, 0.7);
     position: relative;
     overflow: hidden;
     transition: all 0.3s ease;
   }
   .pill-3d::before {
-    content: '';
+    content: "";
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent);
+    background: linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.45),
+      transparent
+    );
     border-radius: 100px 100px 0 0;
     pointer-events: none;
   }
   .pill-3d:hover {
-    background: linear-gradient(135deg, rgba(230,138,0,0.2), rgba(230,138,0,0.08));
-    border-color: rgba(230,138,0,0.4);
+    background: linear-gradient(
+      135deg,
+      rgba(230, 138, 0, 0.2),
+      rgba(230, 138, 0, 0.08)
+    );
+    border-color: rgba(230, 138, 0, 0.4);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(230,138,0,0.15), inset 0 1px 0 rgba(255,255,255,0.8);
+    box-shadow:
+      0 4px 16px rgba(230, 138, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
   .dark .pill-3d {
     color: #e8ddd3;
-    background: linear-gradient(135deg, rgba(100,70,40,0.4), rgba(60,40,20,0.3));
-    border-color: rgba(100,70,40,0.4);
+    background: linear-gradient(
+      135deg,
+      rgba(100, 70, 40, 0.4),
+      rgba(60, 40, 20, 0.3)
+    );
+    border-color: rgba(100, 70, 40, 0.4);
   }
 
   /* ── Buttons ─────────────────────────────────────── */
@@ -273,91 +329,170 @@
     @apply px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300;
     background: linear-gradient(135deg, #e68a00, #cc7a00);
     color: #fff;
-    box-shadow: 0 4px 16px rgba(230,138,0,0.3);
+    box-shadow: 0 4px 16px rgba(230, 138, 0, 0.3);
   }
   .btn-primary:hover {
-    box-shadow: 0 8px 24px rgba(230,138,0,0.45);
+    box-shadow: 0 8px 24px rgba(230, 138, 0, 0.45);
     transform: translateY(-2px);
   }
   .btn-outline {
     @apply px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300;
-    background: rgba(255,255,255,0.15);
+    background: rgba(255, 255, 255, 0.15);
     backdrop-filter: blur(12px);
-    border: 1px solid rgba(230,138,0,0.4);
+    border: 1px solid rgba(230, 138, 0, 0.4);
     color: #b45309;
   }
   .btn-outline:hover {
-    background: rgba(230,138,0,0.1);
+    background: rgba(230, 138, 0, 0.1);
     border-color: #e68a00;
   }
 
   /* ── Animations ──────────────────────────────────── */
   @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   @keyframes floatSlow {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    25% { transform: translate(30px, -20px) scale(1.05); }
-    50% { transform: translate(-20px, 30px) scale(0.95); }
-    75% { transform: translate(20px, 15px) scale(1.02); }
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    25% {
+      transform: translate(30px, -20px) scale(1.05);
+    }
+    50% {
+      transform: translate(-20px, 30px) scale(0.95);
+    }
+    75% {
+      transform: translate(20px, 15px) scale(1.02);
+    }
   }
   @keyframes pulse-dot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.6); opacity: 0; }
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
   }
 
-  .fade-in { animation: fadeInUp 0.6s ease-out both; }
-  .fade-in-d1 { animation: fadeInUp 0.6s ease-out 0.1s both; }
-  .fade-in-d2 { animation: fadeInUp 0.6s ease-out 0.2s both; }
-  .fade-in-d3 { animation: fadeInUp 0.6s ease-out 0.3s both; }
+  .fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+  .fade-in-d1 {
+    animation: fadeInUp 0.6s ease-out 0.1s both;
+  }
+  .fade-in-d2 {
+    animation: fadeInUp 0.6s ease-out 0.2s both;
+  }
+  .fade-in-d3 {
+    animation: fadeInUp 0.6s ease-out 0.3s both;
+  }
 
   .hover-lift {
     @apply transition-all duration-300;
   }
   .hover-lift:hover {
     transform: translateY(-6px);
-    box-shadow: 0 16px 48px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.8);
+    box-shadow:
+      0 16px 48px rgba(0, 0, 0, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.8);
   }
 
   /* ── Abstract BG shapes ──────────────────────────── */
-  .bg-shapes { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bg-shapes {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
   .bg-shape {
     position: absolute;
     border-radius: 50%;
     filter: blur(80px);
     opacity: 0.3;
   }
-  .bg-shape-1 { width: 600px; height: 600px; background: radial-gradient(circle, #ddb892, transparent 70%); top: -10%; left: -8%; animation: floatSlow 20s ease-in-out infinite; }
-  .bg-shape-2 { width: 500px; height: 500px; background: radial-gradient(circle, #e6ccb2, transparent 70%); top: 30%; right: -12%; animation: floatSlow 25s ease-in-out infinite reverse; }
-  .bg-shape-3 { width: 400px; height: 400px; background: radial-gradient(circle, #d4a373, transparent 70%); bottom: 10%; left: 20%; animation: floatSlow 18s ease-in-out infinite 3s; }
-  .bg-shape-4 { width: 350px; height: 350px; background: radial-gradient(circle, #faedcd, transparent 70%); top: 60%; left: 60%; animation: floatSlow 22s ease-in-out infinite 5s; }
+  .bg-shape-1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, #ddb892, transparent 70%);
+    top: -10%;
+    left: -8%;
+    animation: floatSlow 20s ease-in-out infinite;
+  }
+  .bg-shape-2 {
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, #e6ccb2, transparent 70%);
+    top: 30%;
+    right: -12%;
+    animation: floatSlow 25s ease-in-out infinite reverse;
+  }
+  .bg-shape-3 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, #d4a373, transparent 70%);
+    bottom: 10%;
+    left: 20%;
+    animation: floatSlow 18s ease-in-out infinite 3s;
+  }
+  .bg-shape-4 {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, #faedcd, transparent 70%);
+    top: 60%;
+    left: 60%;
+    animation: floatSlow 22s ease-in-out infinite 5s;
+  }
 
   /* ── Timeline ────────────────────────────────────── */
   .tl-line {
     position: absolute;
     left: 50%;
-    top: 0; bottom: 0;
+    top: 0;
+    bottom: 0;
     width: 3px;
-    background: linear-gradient(to bottom, transparent, rgba(180,120,60,0.4) 10%, rgba(180,120,60,0.5) 50%, rgba(180,120,60,0.4) 90%, transparent);
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      rgba(180, 120, 60, 0.4) 10%,
+      rgba(180, 120, 60, 0.5) 50%,
+      rgba(180, 120, 60, 0.4) 90%,
+      transparent
+    );
     transform: translateX(-50%);
   }
   .tl-dot {
-    width: 18px; height: 18px;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
     background: linear-gradient(135deg, #e68a00, #ff9d2e);
-    border: 3px solid rgba(255,255,255,0.8);
-    box-shadow: 0 0 12px rgba(230,138,0,0.5), 0 0 24px rgba(230,138,0,0.25);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    box-shadow:
+      0 0 12px rgba(230, 138, 0, 0.5),
+      0 0 24px rgba(230, 138, 0, 0.25);
   }
   .tl-dot-pulse {
     position: absolute;
     inset: -6px;
     border-radius: 50%;
-    border: 2px solid rgba(230,138,0,0.3);
+    border: 2px solid rgba(230, 138, 0, 0.3);
     animation: pulse-dot 2.5s ease-in-out infinite;
   }
 
   @media (max-width: 768px) {
-    .tl-line { left: 24px; }
+    .tl-line {
+      left: 24px;
+    }
   }
 }

@@ -41,22 +41,23 @@ pnpm start
 
 ## 🛠 Tech Stack
 
-| Category | Technologies |
-|----------|--------------|
-| **Framework** | React 19 + TypeScript 5.6 |
-| **Build Tool** | Vite 7 + Tailwind CSS 4 (@tailwindcss/vite) |
-| **UI Library** | Shadcn/UI (full components: button, table, dialog, etc.) + Lucide icons |
-| **Styling** | Tailwind + clsx + class-variance-authority (CVA) + tailwind-merge |
-| **Routing/State** | Wouter + React Context (ThemeProvider) + React Hook Form + Zod |
-| **Animations/Charts** | Framer Motion + Recharts |
-| **Server** | Express.js (static SPA hosting) |
-| **Other** | Sonner (toasts), Google Maps (client-side), Manus plugins (debugging) |
+| Category              | Technologies                                                            |
+| --------------------- | ----------------------------------------------------------------------- |
+| **Framework**         | React 19 + TypeScript 5.6                                               |
+| **Build Tool**        | Vite 7 + Tailwind CSS 4 (@tailwindcss/vite)                             |
+| **UI Library**        | Shadcn/UI (full components: button, table, dialog, etc.) + Lucide icons |
+| **Styling**           | Tailwind + clsx + class-variance-authority (CVA) + tailwind-merge       |
+| **Routing/State**     | Wouter + React Context (ThemeProvider) + React Hook Form + Zod          |
+| **Animations/Charts** | Framer Motion + Recharts                                                |
+| **Server**            | Express.js (static SPA hosting)                                         |
+| **Other**             | Sonner (toasts), Google Maps (client-side), Manus plugins (debugging)   |
 
 **Dependencies** (50+): `@radix-ui/*`, `react-hook-form`, `zod`, `axios`, `wouter`, `next-themes`.
 
 ## 🎨 Design Philosophy
 
 **Modern Minimalist with Warm Accents** (from `ideas.md`):
+
 - **Colors**: Cream bg (#faf8f3), deep navy primary (#1a3a52), terracotta accents (#c85a3a), sage green.
 - **Typography**: Georgia (headings), Poppins (body).
 - **Layout**: Asymmetric grids, generous whitespace, card-based price table (mobile), data grid (desktop).
@@ -85,6 +86,7 @@ d:/Muslim Traders manus/
 ```
 
 **Key Files**:
+
 - `client/src/pages/Home.tsx`: Core content (price data hardcoded).
 - `client/src/App.tsx`: Router + providers.
 - `vite.config.ts`: Manus debug collector (logs to `.manus-logs/`).
@@ -100,20 +102,24 @@ d:/Muslim Traders manus/
 ## 🔧 Custom Features
 
 ### Manus Debug Collector
+
 - Logs browser console/network/session to `.manus-logs/` (auto-trims at 1MB).
 - Dev-only: POST `/__manus__/logs`.
 
 ### Google Maps (`Map.tsx`)
+
 - Ready for markers, places, routes (via proxy).
 - Env: `VITE_FRONTEND_FORGE_API_KEY`.
 
 ## 🚀 Deployment
 
 **Vercel** (one-click):
+
 ```bash
 pnpm build:vercel  # Or full build
 vercel --prod
 ```
+
 - `vercel.json` configured.
 - Prod server bundles to `dist/index.js`.
 
@@ -139,4 +145,3 @@ MIT © Muslim Traders v2
 ---
 
 **Built with ❤️ for efficient distributor operations.** Questions? Check `ideas.md` or open an issue.
-
