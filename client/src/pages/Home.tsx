@@ -43,6 +43,15 @@ const priceData: PriceItem[] = [
   { brand: 'Capstan Select', category: 'Cigarettes', unitRate: 'n/a', rate: 8000, wsFiler: 'n/a', wsNonFiler: 'n/a' },
   { brand: 'Lucky Strike Berry', category: 'Cigarettes', unitRate: 'n/a', rate: 11200.20, wsFiler: 'n/a', wsNonFiler: 'n/a' },
   { brand: 'Lucky Strike Mint', category: 'Cigarettes', unitRate: 'n/a', rate: 11200.20, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Berry Frost 6 MG', category: 'Velo', unitRate: '183.52', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Berry Frost Nano', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Berry Frost 10 MG', category: 'Velo', unitRate: '260.13', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Berry Frost 14 MG', category: 'Velo', unitRate: '183.52', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Polar Mint 6 MG - Nano', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Polar Mint 10 MG', category: 'Velo', unitRate: '260.13', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Polar Mint 14 MG', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Water Melon 10 MG', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
+  { brand: 'Rich Elaichi 10 MG', category: 'Velo', unitRate: '231.34', rate: 0, wsFiler: 'n/a', wsNonFiler: 'n/a' },
   { brand: 'Velo Strawberry Ice 10 MG', category: 'Velo', unitRate: '231.34', rate: 12049, wsFiler: '11,295', wsNonFiler: '11,520' },
   { brand: 'Velo Tropical Ice 10 MG', category: 'Velo', unitRate: '231.34', rate: 12049, wsFiler: '11,295', wsNonFiler: '11,520' },
   { brand: 'Purple Grape 10 MG', category: 'Velo', unitRate: '231.34', rate: 9250.10, wsFiler: '9,045', wsNonFiler: '9,225' },
@@ -251,6 +260,15 @@ export default function Home() {
               </div>
             ))}
           </div>
+
+          <div className="mt-8 text-center">
+            <a
+              href="/timeline"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-accent text-accent-foreground font-semibold text-sm transition-all duration-300 hover:shadow-lg hover:scale-105"
+            >
+              View Full Interactive Timeline →
+            </a>
+          </div>
         </div>
       </section>
 
@@ -435,7 +453,7 @@ export default function Home() {
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            {['Dunhill', 'Benson & Hedges', 'John Player', 'Gold Leaf', 'Capstan', 'Embassy', 'Velo'].map((brand) => (
+            {['Dunhill', 'Benson & Hedges', 'John Player', 'Gold Leaf', 'Capstan', 'Embassy', 'Lucky Strike', 'Velo'].map((brand) => (
               <div
                 key={brand}
                 className="px-3 sm:px-4 py-2 bg-background border border-accent rounded-full text-xs sm:text-sm font-semibold text-primary hover:bg-accent hover:text-accent-foreground transition-all duration-300 cursor-pointer"
