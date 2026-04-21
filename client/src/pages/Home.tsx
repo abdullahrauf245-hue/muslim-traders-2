@@ -300,7 +300,7 @@ const timelineData = [
     business: "Haleeb Foods",
     detail:
       "Started distribution operations in 1988 as a distribution partner for Haleeb Foods, building the foundation of a trusted supply chain across Chakwal.",
-    brands: ["Haleeb", "Good Milk", "Candia"],
+    brands: ["Haleeb", "Good Milk", "Desi Ghee"],
   },
   {
     year: "1990",

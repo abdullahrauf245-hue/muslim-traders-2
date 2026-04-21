@@ -24,7 +24,7 @@ const timelineData: TimelineEntry[] = [
     business: "Haleeb Foods",
     detail:
       "Muslim Traders began its journey in 1988 as a distribution partner for Haleeb Foods, building the foundation of a trusted supply chain across Chakwal. This 20-year partnership shaped our core logistics expertise.",
-    brands: ["Haleeb", "Good Milk", "Candia"],
+    brands: ["Haleeb", "Good Milk", "Desi Ghee"],
   },
   {
     year: "1990",
@@ -40,7 +40,7 @@ const timelineData: TimelineEntry[] = [
     business: "Super Crisp Industries",
     detail:
       "Super Crisp Industries joined our portfolio in 1991. Over two decades, we managed inventory, retail placement, and trade programs for their snacks across the region.",
-    brands: ["Super Crisp", "Kurleez", "Lays"],
+    brands: ["Super Crisp", "Twister", "Catty Chins", "Nimkomix", ],
   },
   {
     year: "2007",
