@@ -323,7 +323,7 @@ const timelineData = [
     endYear: "Present",
     business: "Pakistan Tobacco Company (PTC)",
     detail:
-      "Our flagship partnership since 2007. As an exclusive PTC distributor, we manage local distribution for premium and mass-market tobacco and nicotine pouch brands, operating across 375+ exclusive distributors and 400,000+ retail stores.",
+      "Our flagship partnership since 2007. Pakistan Tobacco Company (PTC), a subsidiary of British American Tobacco, holds the historic legacy of being the first multinational corporation established in Pakistan in 1947. As an exclusive distributor for this industry titan, we manage local distribution for their premium and mass-market tobacco and nicotine pouch brands, operating across 375+ exclusive distributors and 400,000+ retail stores.",
     brands: [
       "Dunhill",
       "Benson & Hedges",
