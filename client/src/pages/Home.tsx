@@ -299,7 +299,7 @@ const timelineData = [
     endYear: "2008",
     business: "Haleeb Foods",
     detail:
-      "Started distribution operations in 1988 as a distribution partner for Haleeb Foods, building the foundation of a trusted supply chain across Chakwal.",
+      "Muslim Traders began its journey in 1988 as a distribution partner for Haleeb Foods, building the foundation of a trusted supply chain across Chakwal. This 20-year partnership shaped our core logistics expertise.",
     brands: ["Haleeb", "Good Milk", "Desi Ghee"],
   },
   {
@@ -307,7 +307,7 @@ const timelineData = [
     endYear: "2007",
     business: "Procter & Gamble",
     detail:
-      "Handled distribution from 1990, expanding our reach to FMCG retail and wholesale channels. Our disciplined market coverage earned global trust.",
+      "From 1990, we handled P&G distribution, expanding our reach to FMCG retail and wholesale channels. Our disciplined market coverage earned the trust of a global brand for 17 years.",
     brands: ["Ariel", "Safeguard", "Pantene", "Head & Shoulders"],
   },
   {
@@ -315,15 +315,15 @@ const timelineData = [
     endYear: "2011",
     business: "Super Crisp Industries",
     detail:
-      "Brought into the portfolio in 1991. Over two decades, we managed inventory, retail placement, and trade programs for their snacks.",
-    brands: ["Super Crisp", "Kurleez", "Lays"],
+      "Super Crisp Industries joined our portfolio in 1991. Over two decades, we managed inventory, retail placement, and trade programs for their snacks across the region.",
+    brands: ["Super Crisp", "Twister", "Catty Chins", "Nimkomix"],
   },
   {
     year: "2007",
     endYear: "Present",
-    business: "PTC",
+    business: "Pakistan Tobacco Company (PTC)",
     detail:
-      "Joined in 2007. As an exclusive PTC distributor, we manage local distribution for premium tobacco and nicotine pouch brands.",
+      "Our flagship partnership since 2007. As an exclusive PTC distributor, we manage local distribution for premium and mass-market tobacco and nicotine pouch brands, operating across 375+ exclusive distributors and 400,000+ retail stores.",
     brands: [
       "Dunhill",
       "Benson & Hedges",
@@ -607,6 +607,31 @@ export default function Home() {
                   </div>
                 );
               })}
+            </div>
+          </div>
+        </section>
+
+        {/* Leadership Section */}
+        <section id="leadership" className="py-12 relative z-20">
+          <div className="container">
+            <div className="glass-strong rounded-[2.5rem] p-10 md:p-16 max-w-4xl mx-auto text-center relative overflow-hidden hover-lift">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6 relative z-10">
+                LEADERSHIP
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6 relative z-10">
+                Abdul Rauf Athar
+              </h2>
+              <p className="text-foreground/80 leading-relaxed text-lg font-medium relative z-10 max-w-2xl mx-auto italic">
+                "Our foundation was built in 1988 on a simple promise:
+                unwavering reliability. For over three decades, we have remained
+                dedicated to empowering our partners and ensuring seamless
+                distribution across the Chakwal region."
+              </p>
+              <div className="mt-8 text-sm font-bold text-foreground/50 uppercase tracking-widest relative z-10">
+                Founder & Managing Director
+              </div>
             </div>
           </div>
         </section>

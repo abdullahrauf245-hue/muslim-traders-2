@@ -40,7 +40,7 @@ const timelineData: TimelineEntry[] = [
     business: "Super Crisp Industries",
     detail:
       "Super Crisp Industries joined our portfolio in 1991. Over two decades, we managed inventory, retail placement, and trade programs for their snacks across the region.",
-    brands: ["Super Crisp", "Twister", "Catty Chins", "Nimkomix", ],
+    brands: ["Super Crisp", "Twister", "Catty Chins", "Nimkomix"],
   },
   {
     year: "2007",
