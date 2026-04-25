@@ -487,7 +487,7 @@ export default function Home() {
           </div>
         </nav>
 
-        <section className="relative container py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+        <section className="relative container py-12 md:py-16 grid md:grid-cols-2 gap-12 items-center">
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -532,7 +532,7 @@ export default function Home() {
           </motion.div>
         </section>
 
-        <section id="journey" className="py-20 relative">
+        <section id="journey" className="py-12 relative">
           <div className="container">
             <motion.div 
               className="text-center mb-16"
@@ -565,7 +565,7 @@ export default function Home() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
                     transition={{ duration: 0.7, ease: "easeOut" }}
-                    className={`relative flex items-start mb-20 ${isLeft ? "flex-col md:flex-row md:pr-[50%] md:justify-end" : "flex-col md:flex-row-reverse md:pl-[50%] md:justify-end"}`}
+                    className={`relative flex items-start mb-12 md:mb-0 ${index !== 0 ? 'md:-mt-32' : ''} ${isLeft ? "flex-col md:flex-row md:pr-[50%] md:justify-end" : "flex-col md:flex-row-reverse md:pl-[50%] md:justify-end"}`}
                   >
                     <div className="absolute left-[23px] md:left-1/2 top-8 transform -translate-x-1/2 z-10">
                       <div className="tl-dot" />
@@ -638,7 +638,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="operations" className="py-20 relative">
+        <section id="operations" className="py-12 relative">
           <div className="container">
             <motion.div 
               className="text-center mb-16"
@@ -697,7 +697,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="price-board" className="py-20 relative">
+        <section id="price-board" className="py-12 relative">
           <div className="container">
             <div className="glass-strong rounded-[2.5rem] p-6 sm:p-10">
               <div className="mb-10 text-center">
@@ -867,7 +867,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="portfolio" className="py-20 relative">
+        <section id="portfolio" className="py-12 relative">
           <div className="container">
             <motion.div 
               initial={{ opacity: 0, scale: 0.9 }}
@@ -910,7 +910,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="py-24 relative">
+        <section id="contact" className="py-16 relative">
           <div className="container">
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
