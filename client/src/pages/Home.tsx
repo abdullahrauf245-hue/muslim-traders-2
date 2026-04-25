@@ -1,4 +1,5 @@
-import { useState, useMemo, useEffect, useRef } from "react";
+import { useState, useMemo } from "react";
+import { motion } from "framer-motion";
 import {
   Filter,
   MapPin,
@@ -343,28 +344,7 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme, switchable } = useTheme();
 
-  const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [visibleSections, setVisibleSections] = useState<Set<number>>(
-    new Set()
-  );
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          const index = Number(entry.target.getAttribute("data-index"));
-          setVisibleSections(prev => {
-            const next = new Set(prev);
-            if (entry.isIntersecting) next.add(index);
-            return next;
-          });
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" }
-    );
-    sectionRefs.current.forEach(ref => ref && observer.observe(ref));
-    return () => observer.disconnect();
-  }, []);
 
   const navLinks = [
     { href: "#journey", label: "Journey" },
@@ -508,7 +488,11 @@ export default function Home() {
         </nav>
 
         <section className="relative container py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-          <div className="fade-in">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
             <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6">
               EST. 1988 · CHAKWAL, PAKISTAN
             </div>
@@ -521,31 +505,42 @@ export default function Home() {
               three decades.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <button className="btn-primary">View Portfolio</button>
-              <button className="btn-outline">Contact Us</button>
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn-primary">View Portfolio</motion.button>
+              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn-outline">Contact Us</motion.button>
             </div>
-          </div>
-          <div className="grid grid-cols-1 gap-6 fade-in-d1">
-            <div className="glass rounded-2xl p-6 hover-lift relative overflow-hidden">
+          </motion.div>
+          <motion.div 
+            className="grid grid-cols-1 gap-6"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          >
+            <motion.div whileHover={{ scale: 1.02, translateY: -6 }} className="glass rounded-2xl p-6 relative overflow-hidden">
               <div className="text-4xl font-bold glow-orange mb-2">375</div>
               <p className="text-foreground/80 font-medium">
                 Exclusive distributors in the PTC network
               </p>
-            </div>
-            <div className="glass rounded-2xl p-6 hover-lift relative overflow-hidden">
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.02, translateY: -6 }} className="glass rounded-2xl p-6 relative overflow-hidden">
               <div className="text-4xl font-bold glow-orange mb-2">
                 400,000+
               </div>
               <p className="text-foreground/80 font-medium">
                 Retail stores supported across Pakistan
               </p>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </section>
 
         <section id="journey" className="py-20 relative">
           <div className="container">
-            <div className="text-center mb-16 fade-in-d2">
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+            >
               <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
                 OUR JOURNEY
               </div>
@@ -556,30 +551,30 @@ export default function Home() {
                 Every partnership tells a story of trust, growth, and market
                 excellence.
               </p>
-            </div>
+            </motion.div>
 
             <div className="relative max-w-4xl mx-auto py-10">
               <div className="tl-line" />
               {timelineData.map((entry, index) => {
                 const isLeft = index % 2 === 0;
-                const isVisible = visibleSections.has(index);
 
                 return (
-                  <div
+                  <motion.div
                     key={entry.year}
-                    ref={el => {
-                      sectionRefs.current[index] = el;
-                    }}
-                    data-index={index}
-                    className={`relative flex items-start mb-20 transition-all duration-1000 transform ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"} ${isLeft ? "flex-col md:flex-row md:pr-[50%] md:justify-end" : "flex-col md:flex-row-reverse md:pl-[50%] md:justify-end"}`}
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.7, ease: "easeOut" }}
+                    className={`relative flex items-start mb-20 ${isLeft ? "flex-col md:flex-row md:pr-[50%] md:justify-end" : "flex-col md:flex-row-reverse md:pl-[50%] md:justify-end"}`}
                   >
                     <div className="absolute left-[23px] md:left-1/2 top-8 transform -translate-x-1/2 z-10">
                       <div className="tl-dot" />
                       <div className="tl-dot-pulse" />
                     </div>
 
-                    <div
-                      className={`glass-strong rounded-3xl p-6 md:p-8 max-w-md w-[calc(100%-4rem)] ml-16 md:ml-0 ${isLeft ? "md:mr-10" : "md:ml-10"} hover-lift`}
+                    <motion.div
+                      whileHover={{ scale: 1.02, translateY: -4 }}
+                      className={`glass-strong rounded-3xl p-6 md:p-8 max-w-md w-[calc(100%-4rem)] ml-16 md:ml-0 ${isLeft ? "md:mr-10" : "md:ml-10"}`}
                     >
                       <div className="flex items-baseline gap-3 mb-4">
                         <span className="text-4xl font-bold glow-orange">
@@ -603,8 +598,8 @@ export default function Home() {
                           </span>
                         ))}
                       </div>
-                    </div>
-                  </div>
+                    </motion.div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -614,7 +609,14 @@ export default function Home() {
         {/* Leadership Section */}
         <section id="leadership" className="py-12 relative z-20">
           <div className="container">
-            <div className="glass-strong rounded-[2.5rem] p-10 md:p-16 max-w-4xl mx-auto text-center relative overflow-hidden hover-lift">
+            <motion.div 
+              whileHover={{ scale: 1.02, translateY: -4 }} 
+              initial={{ opacity: 0, scale: 0.95 }} 
+              whileInView={{ opacity: 1, scale: 1 }} 
+              viewport={{ once: true, margin: "-50px" }} 
+              transition={{ duration: 0.6 }} 
+              className="glass-strong rounded-[2.5rem] p-10 md:p-16 max-w-4xl mx-auto text-center relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
               <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
               <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6 relative z-10">
@@ -632,20 +634,26 @@ export default function Home() {
               <div className="mt-8 text-sm font-bold text-foreground/50 uppercase tracking-widest relative z-10">
                 Founder & Managing Director
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section id="operations" className="py-20 relative">
           <div className="container">
-            <div className="text-center mb-16">
+            <motion.div 
+              className="text-center mb-16"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+            >
               <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
                 OPERATIONS
               </div>
               <h2 className="text-4xl md:text-5xl font-bold text-primary">
                 Core Business Operations
               </h2>
-            </div>
+            </motion.div>
             <div className="grid md:grid-cols-2 gap-8">
               {[
                 {
@@ -665,7 +673,15 @@ export default function Home() {
                   desc: "Retail engagement programs are implemented with performance-linked incentives and display standards.",
                 },
               ].map((op, i) => (
-                <div key={i} className="glass rounded-3xl p-8 hover-lift">
+                <motion.div 
+                  key={i} 
+                  whileHover={{ scale: 1.03, translateY: -4 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
+                  className="glass rounded-3xl p-8"
+                >
                   <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-3">
                     <span className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm">
                       {i + 1}
@@ -675,7 +691,7 @@ export default function Home() {
                   <p className="text-foreground/80 leading-relaxed font-medium">
                     {op.desc}
                   </p>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>
@@ -730,9 +746,14 @@ export default function Home() {
                   { label: "Highest", value: stats.highestRate },
                   { label: "Lowest", value: stats.lowestRate },
                 ].map((stat, i) => (
-                  <div
+                  <motion.div
                     key={i}
-                    className="glass-light rounded-2xl p-5 text-center hover-lift"
+                    whileHover={{ scale: 1.05, translateY: -4 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    className="glass-light rounded-2xl p-5 text-center"
                   >
                     <div className="text-xl font-bold glow-orange mb-1 truncate px-2">
                       {stat.value}
@@ -740,7 +761,7 @@ export default function Home() {
                     <div className="text-xs font-bold text-foreground/60 uppercase tracking-wider">
                       {stat.label}
                     </div>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
 
@@ -768,8 +789,12 @@ export default function Home() {
                     </thead>
                     <tbody className="divide-y divide-white/20">
                       {filteredData.map((item, i) => (
-                        <tr
+                        <motion.tr
                           key={i}
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true, margin: "-20px" }}
+                          transition={{ duration: 0.3, delay: Math.min(i * 0.05, 0.5) }}
                           className="hover:bg-white/20 transition-colors"
                         >
                           <td className="p-4 font-bold text-primary">
@@ -792,7 +817,7 @@ export default function Home() {
                           <td className="p-4 text-right font-medium text-foreground/80">
                             {item.wsNonFiler}
                           </td>
-                        </tr>
+                        </motion.tr>
                       ))}
                     </tbody>
                   </table>
@@ -801,7 +826,14 @@ export default function Home() {
                 {/* Mobile Cards */}
                 <div className="md:hidden flex flex-col divide-y divide-white/20">
                   {filteredData.map((item, i) => (
-                    <div key={i} className="p-4 flex flex-col gap-3 hover:bg-white/10 transition-colors">
+                    <motion.div 
+                      key={i} 
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-20px" }}
+                      transition={{ duration: 0.3, delay: Math.min(i * 0.05, 0.5) }}
+                      className="p-4 flex flex-col gap-3 hover:bg-white/10 transition-colors"
+                    >
                       <div className="flex justify-between items-start">
                         <div>
                           <h4 className="font-bold text-primary text-base">{item.brand}</h4>
@@ -827,7 +859,7 @@ export default function Home() {
                           <div className="text-sm font-semibold text-foreground/80">{item.wsNonFiler}</div>
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -837,7 +869,13 @@ export default function Home() {
 
         <section id="portfolio" className="py-20 relative">
           <div className="container">
-            <div className="glass rounded-[2.5rem] p-10 text-center max-w-4xl mx-auto">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+              className="glass rounded-[2.5rem] p-10 text-center max-w-4xl mx-auto"
+            >
               <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6">
                 BRAND PORTFOLIO
               </div>
@@ -854,22 +892,33 @@ export default function Home() {
                   "Embassy",
                   "Lucky Strike",
                   "Velo",
-                ].map(brand => (
-                  <span
+                ].map((brand, i) => (
+                  <motion.span
                     key={brand}
-                    className="pill-3d !text-sm !px-6 !py-2 !font-bold scale-110 m-2"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    whileInView={{ opacity: 1, scale: 1.1 }}
+                    whileHover={{ scale: 1.2, rotate: -2 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                    className="pill-3d !text-sm !px-6 !py-2 !font-bold m-2"
                   >
                     {brand}
-                  </span>
+                  </motion.span>
                 ))}
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
         <section id="contact" className="py-24 relative">
           <div className="container">
-            <div className="glass-strong rounded-[3rem] p-10 sm:p-16 relative overflow-hidden">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+              className="glass-strong rounded-[3rem] p-10 sm:p-16 relative overflow-hidden"
+            >
               <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
               <div className="grid md:grid-cols-2 gap-16 relative z-10">
                 <div>
@@ -932,7 +981,7 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </section>
 
