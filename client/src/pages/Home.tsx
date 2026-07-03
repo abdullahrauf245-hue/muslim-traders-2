@@ -21,8 +21,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-/* Premium Glassmorphism Design
-   - Beige abstract bg, frosted glass panels, glowing orange 3D
+/* The Merchant's Ledger — Skeuomorphic Design
+   - Aged parchment desk, stitched leather, polished brass
+   - Embossed lettering, tactile 3D buttons, ledger price board
    - All merged into a single page
 */
 
@@ -338,13 +339,23 @@ const timelineData = [
   },
 ];
 
+/* Brass corner rivets for raised panels */
+function Rivets() {
+  return (
+    <>
+      <span className="rivet top-3 left-3" aria-hidden="true" />
+      <span className="rivet top-3 right-3" aria-hidden="true" />
+      <span className="rivet bottom-3 left-3" aria-hidden="true" />
+      <span className="rivet bottom-3 right-3" aria-hidden="true" />
+    </>
+  );
+}
+
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme, switchable } = useTheme();
-
-
 
   const navLinks = [
     { href: "#journey", label: "Journey" },
@@ -408,23 +419,20 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-transparent overflow-x-hidden relative">
-      <div className="bg-shapes">
-        <div className="bg-shape bg-shape-1" />
-        <div className="bg-shape bg-shape-2" />
-        <div className="bg-shape bg-shape-3" />
-        <div className="bg-shape bg-shape-4" />
-      </div>
+      {/* Paper grain over the whole desk */}
+      <div className="grain-overlay" aria-hidden="true" />
 
       <div className="relative z-10">
-        <nav className="sticky top-0 z-50 glass rounded-b-2xl mx-2 sm:mx-4 mt-2">
-          <div className="container flex items-center justify-between py-3 px-4">
+        {/* ── Leather nav rail ─────────────────────────── */}
+        <nav className="sticky top-0 z-50 leather stitched rounded-b-2xl mx-2 sm:mx-4">
+          <div className="container flex items-center justify-between py-3 px-4 relative z-10">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shadow-lg">
-                <span className="text-primary-foreground font-bold text-lg">
-                  MT
-                </span>
+              <div className="coin relative w-11 h-11 shrink-0">
+                <span className="font-black text-base tracking-tight">MT</span>
               </div>
-              <h1 className="text-xl font-bold text-primary">Muslim Traders</h1>
+              <h1 className="text-xl font-bold engraved-light tracking-wide">
+                Muslim Traders
+              </h1>
             </div>
             <div className="flex items-center gap-3">
               <div className="hidden items-center gap-6 md:flex">
@@ -432,7 +440,7 @@ export default function Home() {
                   <a
                     key={link.href}
                     href={link.href}
-                    className="text-sm font-semibold text-foreground hover:text-accent transition-colors"
+                    className="text-sm font-bold engraved-light hover:text-amber-300 transition-colors"
                   >
                     {link.label}
                   </a>
@@ -445,7 +453,7 @@ export default function Home() {
                   size="icon"
                   onClick={toggleTheme}
                   aria-label="Toggle Theme"
-                  className="h-10 w-10 rounded-full glass-light border-border/50 text-foreground hover:bg-white/20"
+                  className="coin relative h-11 w-11 rounded-full border-0 hover:brightness-110 text-[#4a3005] hover:text-[#4a3005]"
                 >
                   {theme === "light" ? (
                     <Moon className="h-5 w-5" />
@@ -458,7 +466,8 @@ export default function Home() {
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-10 w-10 md:hidden glass-light rounded-full"
+                aria-label="Toggle Menu"
+                className="coin relative h-11 w-11 md:hidden rounded-full text-[#4a3005] hover:text-[#4a3005] hover:brightness-110 hover:bg-transparent"
                 onClick={() => setIsMobileMenuOpen(prev => !prev)}
               >
                 {isMobileMenuOpen ? (
@@ -470,7 +479,7 @@ export default function Home() {
             </div>
           </div>
           <div
-            className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${isMobileMenuOpen ? "max-h-80 opacity-100 border-t border-white/20" : "max-h-0 opacity-0"}`}
+            className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out relative z-10 ${isMobileMenuOpen ? "max-h-80 opacity-100 border-t border-amber-200/20" : "max-h-0 opacity-0"}`}
           >
             <div className="container flex flex-col py-3 px-4">
               {navLinks.map(link => (
@@ -478,7 +487,7 @@ export default function Home() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="rounded-xl px-4 py-3 text-sm font-semibold text-foreground transition-colors hover:bg-white/20 hover:text-accent"
+                  className="rounded-xl px-4 py-3 text-sm font-bold engraved-light transition-colors hover:bg-black/20 hover:text-amber-300"
                 >
                   {link.label}
                 </a>
@@ -487,67 +496,84 @@ export default function Home() {
           </div>
         </nav>
 
+        {/* ── Hero ─────────────────────────────────────── */}
         <section className="relative container py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
           >
-            <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6">
+            <div className="plaque sheen mb-6">
               EST. 1988 · CHAKWAL, PAKISTAN
             </div>
-            <h1 className="text-5xl md:text-6xl font-bold text-primary mb-6 leading-tight">
-              A Legacy of <span className="glow-orange">Trust</span>
+            <h1 className="text-5xl md:text-6xl font-black embossed mb-6 leading-tight">
+              A Legacy of <span className="brass-text italic">Trust</span>
             </h1>
-            <p className="text-lg text-foreground/80 mb-8 leading-relaxed max-w-lg font-medium">
+            <p className="text-lg text-foreground/85 mb-8 leading-relaxed max-w-lg font-medium">
               Muslim Traders has built a reliable distribution network through
               long-term partnerships and disciplined market service for over
               three decades.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn-primary">View Portfolio</motion.button>
-              <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="btn-outline">Contact Us</motion.button>
+              <motion.button whileTap={{ scale: 0.97 }} className="btn-3d">
+                View Portfolio
+              </motion.button>
+              <motion.button
+                whileTap={{ scale: 0.97 }}
+                className="btn-3d-outline"
+              >
+                Contact Us
+              </motion.button>
             </div>
           </motion.div>
-          <motion.div 
+          <motion.div
             className="grid grid-cols-1 gap-6"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            <motion.div whileHover={{ scale: 1.02, translateY: -6 }} className="glass rounded-2xl p-6 relative overflow-hidden">
-              <div className="text-4xl font-bold glow-orange mb-2">375</div>
-              <p className="text-foreground/80 font-medium">
+            <motion.div
+              whileHover={{ translateY: -5 }}
+              className="panel-raised rounded-2xl p-6 relative overflow-hidden"
+            >
+              <Rivets />
+              <div className="text-5xl font-black brass-text mb-2 font-serif">
+                375
+              </div>
+              <p className="text-foreground/85 font-semibold">
                 Exclusive distributors in the PTC network
               </p>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.02, translateY: -6 }} className="glass rounded-2xl p-6 relative overflow-hidden">
-              <div className="text-4xl font-bold glow-orange mb-2">
+            <motion.div
+              whileHover={{ translateY: -5 }}
+              className="panel-raised rounded-2xl p-6 relative overflow-hidden"
+            >
+              <Rivets />
+              <div className="text-5xl font-black brass-text mb-2 font-serif">
                 400,000+
               </div>
-              <p className="text-foreground/80 font-medium">
+              <p className="text-foreground/85 font-semibold">
                 Retail stores supported across Pakistan
               </p>
             </motion.div>
           </motion.div>
         </section>
 
+        {/* ── Journey timeline ─────────────────────────── */}
         <section id="journey" className="py-20 relative">
           <div className="container">
-            <motion.div 
+            <motion.div
               className="text-center mb-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
-                OUR JOURNEY
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-primary mb-4">
+              <div className="plaque mb-4">OUR JOURNEY</div>
+              <h2 className="text-4xl md:text-5xl font-black embossed mb-4">
                 Through the Decades
               </h2>
-              <p className="text-foreground/80 max-w-2xl mx-auto font-medium">
+              <p className="text-foreground/85 max-w-2xl mx-auto font-medium">
                 Every partnership tells a story of trust, growth, and market
                 excellence.
               </p>
@@ -568,27 +594,27 @@ export default function Home() {
                     className={`relative flex items-start mb-20 ${isLeft ? "flex-col md:flex-row md:pr-[50%] md:justify-end" : "flex-col md:flex-row-reverse md:pl-[50%] md:justify-end"}`}
                   >
                     <div className="absolute left-[23px] md:left-1/2 top-8 transform -translate-x-1/2 z-10">
-                      <div className="tl-dot" />
-                      <div className="tl-dot-pulse" />
+                      <div className="seal-dot" />
+                      <div className="seal-dot-pulse" />
                     </div>
 
                     <motion.div
-                      whileHover={{ scale: 1.02, translateY: -4 }}
-                      className={`glass-strong rounded-3xl p-6 md:p-8 max-w-md w-[calc(100%-4rem)] ml-16 md:ml-0 ${isLeft ? "md:mr-10" : "md:ml-10"}`}
+                      whileHover={{ translateY: -4 }}
+                      className={`panel-raised rounded-3xl p-6 md:p-8 max-w-md w-[calc(100%-4rem)] ml-16 md:ml-0 relative ${isLeft ? "md:mr-10" : "md:ml-10"}`}
                     >
                       <div className="flex items-baseline gap-3 mb-4">
-                        <span className="text-4xl font-bold glow-orange">
+                        <span className="text-4xl font-black brass-text font-serif">
                           {entry.year}
                         </span>
-                        <span className="text-2xl text-accent/50">—</span>
-                        <span className="text-2xl font-bold glow-orange opacity-80">
+                        <span className="text-2xl text-accent/60">—</span>
+                        <span className="text-2xl font-black brass-text font-serif opacity-90">
                           {entry.endYear}
                         </span>
                       </div>
-                      <h3 className="text-2xl font-bold text-primary mb-3">
+                      <h3 className="text-2xl font-bold embossed mb-3">
                         {entry.business}
                       </h3>
-                      <p className="text-foreground/80 mb-6 leading-relaxed text-sm">
+                      <p className="text-foreground/85 mb-6 leading-relaxed text-sm">
                         {entry.detail}
                       </p>
                       <div className="flex flex-wrap gap-2">
@@ -606,51 +632,46 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Leadership Section */}
+        {/* ── Leadership plaque ────────────────────────── */}
         <section id="leadership" className="py-12 relative z-20">
           <div className="container">
-            <motion.div 
-              whileHover={{ scale: 1.02, translateY: -4 }} 
-              initial={{ opacity: 0, scale: 0.95 }} 
-              whileInView={{ opacity: 1, scale: 1 }} 
-              viewport={{ once: true, margin: "-50px" }} 
-              transition={{ duration: 0.6 }} 
-              className="glass-strong rounded-[2.5rem] p-10 md:p-16 max-w-4xl mx-auto text-center relative overflow-hidden"
+            <motion.div
+              initial={{ opacity: 0, scale: 0.97 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.6 }}
+              className="panel-raised panel-framed rounded-[2rem] p-10 md:p-16 max-w-4xl mx-auto text-center relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-64 h-64 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-              <div className="absolute bottom-0 left-0 w-64 h-64 bg-secondary/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2 pointer-events-none" />
-              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6 relative z-10">
-                LEADERSHIP
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6 relative z-10">
+              <Rivets />
+              <div className="plaque mb-6 relative z-10">LEADERSHIP</div>
+              <h2 className="text-3xl md:text-4xl font-black embossed mb-6 relative z-10">
                 Abdul Rauf Athar
               </h2>
-              <p className="text-foreground/80 leading-relaxed text-lg font-medium relative z-10 max-w-2xl mx-auto italic">
+              <p className="text-foreground/85 leading-relaxed text-lg font-medium relative z-10 max-w-2xl mx-auto italic font-serif">
                 "Our foundation was built in 1988 on a simple promise:
                 unwavering reliability. For over three decades, we have remained
                 dedicated to empowering our partners and ensuring seamless
                 distribution across the Chakwal region."
               </p>
-              <div className="mt-8 text-sm font-bold text-foreground/50 uppercase tracking-widest relative z-10">
+              <div className="mt-8 text-sm font-bold text-foreground/60 uppercase tracking-widest relative z-10">
                 Founder & Managing Director
               </div>
             </motion.div>
           </div>
         </section>
 
+        {/* ── Operations ───────────────────────────────── */}
         <section id="operations" className="py-20 relative">
           <div className="container">
-            <motion.div 
+            <motion.div
               className="text-center mb-16"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6 }}
             >
-              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
-                OPERATIONS
-              </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-primary">
+              <div className="plaque mb-4">OPERATIONS</div>
+              <h2 className="text-4xl md:text-5xl font-black embossed">
                 Core Business Operations
               </h2>
             </motion.div>
@@ -673,22 +694,23 @@ export default function Home() {
                   desc: "Retail engagement programs are implemented with performance-linked incentives and display standards.",
                 },
               ].map((op, i) => (
-                <motion.div 
-                  key={i} 
-                  whileHover={{ scale: 1.03, translateY: -4 }}
+                <motion.div
+                  key={i}
+                  whileHover={{ translateY: -4 }}
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-                  className="glass rounded-3xl p-8"
+                  className="panel-raised rounded-3xl p-8 relative"
                 >
-                  <h3 className="text-xl font-bold text-primary mb-4 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-full bg-accent/20 text-accent flex items-center justify-center text-sm">
+                  <Rivets />
+                  <h3 className="text-xl font-bold embossed mb-4 flex items-center gap-3">
+                    <span className="coin relative w-9 h-9 shrink-0 text-sm font-black">
                       {i + 1}
                     </span>
                     {op.title}
                   </h3>
-                  <p className="text-foreground/80 leading-relaxed font-medium">
+                  <p className="text-foreground/85 leading-relaxed font-medium">
                     {op.desc}
                   </p>
                 </motion.div>
@@ -697,189 +719,220 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── Ledger price board ───────────────────────── */}
         <section id="price-board" className="py-20 relative">
           <div className="container">
-            <div className="glass-strong rounded-[2.5rem] p-6 sm:p-10">
-              <div className="mb-10 text-center">
-                <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-4">
-                  PRICE CATALOG
+            <div className="leather stitched rounded-[2.5rem] p-3 sm:p-5">
+              <div className="panel-raised rounded-[2rem] p-6 sm:p-10 relative z-10">
+                <div className="mb-10 text-center">
+                  <div className="plaque mb-4">PRICE CATALOG</div>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black embossed mb-4">
+                    Official Price Board
+                  </h2>
+                  <p className="text-foreground/85 max-w-2xl mx-auto font-medium">
+                    Cigarettes and Velo rates in PKR. All figures are regulated
+                    wholesale & retail prices.
+                  </p>
                 </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary mb-4">
-                  Official Price Board
-                </h2>
-                <p className="text-foreground/80 max-w-2xl mx-auto font-medium">
-                  Cigarettes and Velo rates in PKR. All figures are regulated
-                  wholesale & retail prices.
-                </p>
-              </div>
 
-              <div className="flex flex-col md:flex-row gap-4 mb-8">
-                <div className="flex-1 relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/50 w-5 h-5" />
-                  <Input
-                    placeholder="Search brand (e.g., Dunhill, Velo)"
-                    value={searchTerm}
-                    onChange={e => setSearchTerm(e.target.value)}
-                    className="pl-12 h-14 bg-white/40 border-white/50 rounded-2xl text-base font-medium shadow-inner"
-                  />
-                </div>
-                <Select
-                  value={categoryFilter}
-                  onValueChange={setCategoryFilter}
-                >
-                  <SelectTrigger className="w-full md:w-56 h-14 bg-white/40 border-white/50 rounded-2xl font-medium shadow-inner">
-                    <Filter className="w-4 h-4 mr-2 text-foreground/50" />
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent className="rounded-xl border-white/50 bg-white/90 backdrop-blur-xl">
-                    <SelectItem value="all">All categories</SelectItem>
-                    <SelectItem value="cigarettes">Cigarettes</SelectItem>
-                    <SelectItem value="velo">Velo</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-                {[
-                  { label: "Visible SKUs", value: stats.visibleSkus },
-                  { label: "Avg Rate", value: stats.averageRate },
-                  { label: "Highest", value: stats.highestRate },
-                  { label: "Lowest", value: stats.lowestRate },
-                ].map((stat, i) => (
-                  <motion.div
-                    key={i}
-                    whileHover={{ scale: 1.05, translateY: -4 }}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true, margin: "-50px" }}
-                    transition={{ duration: 0.4, delay: i * 0.1 }}
-                    className="glass-light rounded-2xl p-5 text-center"
+                <div className="flex flex-col md:flex-row gap-4 mb-8">
+                  <div className="flex-1 relative">
+                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground/50 w-5 h-5 z-10" />
+                    <Input
+                      placeholder="Search brand (e.g., Dunhill, Velo)"
+                      value={searchTerm}
+                      onChange={e => setSearchTerm(e.target.value)}
+                      className="inset-well pl-12 h-14 rounded-2xl text-base font-medium border-0"
+                    />
+                  </div>
+                  <Select
+                    value={categoryFilter}
+                    onValueChange={setCategoryFilter}
                   >
-                    <div className="text-xl font-bold glow-orange mb-1 truncate px-2">
-                      {stat.value}
-                    </div>
-                    <div className="text-xs font-bold text-foreground/60 uppercase tracking-wider">
-                      {stat.label}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              <div className="rounded-2xl border border-white/40 glass-light overflow-hidden">
-                {/* Desktop Table */}
-                <div className="overflow-x-auto hidden md:block">
-                  <table className="w-full text-left border-collapse min-w-[800px]">
-                    <thead>
-                      <tr className="bg-primary text-primary-foreground">
-                        <th className="p-4 font-semibold text-sm">Brand</th>
-                        <th className="p-4 font-semibold text-sm">Category</th>
-                        <th className="p-4 font-semibold text-sm text-right">
-                          Outer Rate
-                        </th>
-                        <th className="p-4 font-semibold text-sm text-right">
-                          Rate
-                        </th>
-                        <th className="p-4 font-semibold text-sm text-right">
-                          WS Filer
-                        </th>
-                        <th className="p-4 font-semibold text-sm text-right">
-                          WS Non Filer
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-white/20">
-                      {filteredData.map((item, i) => (
-                        <motion.tr
-                          key={i}
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          viewport={{ once: true, margin: "-20px" }}
-                          transition={{ duration: 0.3, delay: Math.min(i * 0.05, 0.5) }}
-                          className="hover:bg-white/20 transition-colors"
-                        >
-                          <td className="p-4 font-bold text-primary">
-                            {item.brand}
-                          </td>
-                          <td className="p-4">
-                            <span className="pill-3d !py-1 !text-xs">
-                              {item.category}
-                            </span>
-                          </td>
-                          <td className="p-4 text-right font-medium text-foreground/80">
-                            {getOuterRate(item)}
-                          </td>
-                          <td className="p-4 text-right font-bold glow-orange">
-                            {formatWholeNumber(item.rate)}
-                          </td>
-                          <td className="p-4 text-right font-medium text-foreground/80">
-                            {item.wsFiler}
-                          </td>
-                          <td className="p-4 text-right font-medium text-foreground/80">
-                            {item.wsNonFiler}
-                          </td>
-                        </motion.tr>
-                      ))}
-                    </tbody>
-                  </table>
+                    <SelectTrigger className="inset-well w-full md:w-56 !h-14 rounded-2xl font-medium border-0">
+                      <Filter className="w-4 h-4 mr-2 text-foreground/50" />
+                      <SelectValue placeholder="Category" />
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl border-border bg-popover shadow-xl">
+                      <SelectItem value="all">All categories</SelectItem>
+                      <SelectItem value="cigarettes">Cigarettes</SelectItem>
+                      <SelectItem value="velo">Velo</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                {/* Mobile Cards */}
-                <div className="md:hidden flex flex-col divide-y divide-white/20">
-                  {filteredData.map((item, i) => (
-                    <motion.div 
-                      key={i} 
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true, margin: "-20px" }}
-                      transition={{ duration: 0.3, delay: Math.min(i * 0.05, 0.5) }}
-                      className="p-4 flex flex-col gap-3 hover:bg-white/10 transition-colors"
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                  {[
+                    { label: "Visible SKUs", value: stats.visibleSkus },
+                    { label: "Avg Rate", value: stats.averageRate },
+                    { label: "Highest", value: stats.highestRate },
+                    { label: "Lowest", value: stats.lowestRate },
+                  ].map((stat, i) => (
+                    <motion.div
+                      key={i}
+                      whileHover={{ translateY: -3 }}
+                      initial={{ opacity: 0, scale: 0.94 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.4, delay: i * 0.1 }}
+                      className="inset-well rounded-2xl p-5 text-center"
                     >
-                      <div className="flex justify-between items-start">
-                        <div>
-                          <h4 className="font-bold text-primary text-base">{item.brand}</h4>
-                          <span className="pill-3d !py-0.5 !px-2 !text-[10px] mt-2 inline-block">{item.category}</span>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-xs font-bold text-foreground/50 uppercase tracking-wider">Rate</div>
-                          <div className="font-bold glow-orange text-lg">{formatWholeNumber(item.rate)}</div>
-                        </div>
+                      <div className="text-xl font-black brass-text font-serif mb-1 truncate px-2">
+                        {stat.value}
                       </div>
-                      
-                      <div className="grid grid-cols-3 gap-2 mt-1 pt-3 border-t border-white/10">
-                        <div>
-                          <div className="text-[10px] uppercase font-bold text-foreground/50 mb-1">Outer</div>
-                          <div className="text-sm font-semibold text-foreground/80">{getOuterRate(item)}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase font-bold text-foreground/50 mb-1">WS Filer</div>
-                          <div className="text-sm font-semibold text-foreground/80">{item.wsFiler}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase font-bold text-foreground/50 mb-1">WS Non-Filer</div>
-                          <div className="text-sm font-semibold text-foreground/80">{item.wsNonFiler}</div>
-                        </div>
+                      <div className="text-xs font-bold text-foreground/65 uppercase tracking-wider">
+                        {stat.label}
                       </div>
                     </motion.div>
                   ))}
+                </div>
+
+                <div className="rounded-2xl border border-border/80 inset-well overflow-hidden">
+                  {/* Desktop Table */}
+                  <div className="overflow-x-auto hidden md:block">
+                    <table className="w-full text-left border-collapse min-w-[800px]">
+                      <thead>
+                        <tr className="ledger-head">
+                          <th className="p-4 font-bold text-sm tracking-wide">
+                            Brand
+                          </th>
+                          <th className="p-4 font-bold text-sm tracking-wide">
+                            Category
+                          </th>
+                          <th className="p-4 font-bold text-sm tracking-wide text-right">
+                            Outer Rate
+                          </th>
+                          <th className="p-4 font-bold text-sm tracking-wide text-right">
+                            Rate
+                          </th>
+                          <th className="p-4 font-bold text-sm tracking-wide text-right">
+                            WS Filer
+                          </th>
+                          <th className="p-4 font-bold text-sm tracking-wide text-right">
+                            WS Non Filer
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filteredData.map((item, i) => (
+                          <motion.tr
+                            key={i}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-20px" }}
+                            transition={{
+                              duration: 0.3,
+                              delay: Math.min(i * 0.05, 0.5),
+                            }}
+                            className="ledger-row"
+                          >
+                            <td className="p-4 font-bold embossed">
+                              {item.brand}
+                            </td>
+                            <td className="p-4">
+                              <span className="pill-3d !py-1 !text-xs">
+                                {item.category}
+                              </span>
+                            </td>
+                            <td className="p-4 text-right font-medium text-foreground/85 tabular-nums">
+                              {getOuterRate(item)}
+                            </td>
+                            <td className="p-4 text-right font-black brass-text font-serif tabular-nums">
+                              {formatWholeNumber(item.rate)}
+                            </td>
+                            <td className="p-4 text-right font-medium text-foreground/85 tabular-nums">
+                              {item.wsFiler}
+                            </td>
+                            <td className="p-4 text-right font-medium text-foreground/85 tabular-nums">
+                              {item.wsNonFiler}
+                            </td>
+                          </motion.tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  {/* Mobile Cards */}
+                  <div className="md:hidden flex flex-col divide-y divide-border/60">
+                    {filteredData.map((item, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-20px" }}
+                        transition={{
+                          duration: 0.3,
+                          delay: Math.min(i * 0.05, 0.5),
+                        }}
+                        className="p-4 flex flex-col gap-3"
+                      >
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h4 className="font-bold embossed text-base">
+                              {item.brand}
+                            </h4>
+                            <span className="pill-3d !py-0.5 !px-2 !text-[10px] mt-2 inline-block">
+                              {item.category}
+                            </span>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-xs font-bold text-foreground/55 uppercase tracking-wider">
+                              Rate
+                            </div>
+                            <div className="font-black brass-text font-serif text-lg tabular-nums">
+                              {formatWholeNumber(item.rate)}
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className="grid grid-cols-3 gap-2 mt-1 pt-3 border-t border-border/50">
+                          <div>
+                            <div className="text-[10px] uppercase font-bold text-foreground/55 mb-1">
+                              Outer
+                            </div>
+                            <div className="text-sm font-semibold text-foreground/85 tabular-nums">
+                              {getOuterRate(item)}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase font-bold text-foreground/55 mb-1">
+                              WS Filer
+                            </div>
+                            <div className="text-sm font-semibold text-foreground/85 tabular-nums">
+                              {item.wsFiler}
+                            </div>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase font-bold text-foreground/55 mb-1">
+                              WS Non-Filer
+                            </div>
+                            <div className="text-sm font-semibold text-foreground/85 tabular-nums">
+                              {item.wsNonFiler}
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
+        {/* ── Brand portfolio ──────────────────────────── */}
         <section id="portfolio" className="py-20 relative">
           <div className="container">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6 }}
-              className="glass rounded-[2.5rem] p-10 text-center max-w-4xl mx-auto"
+              className="panel-raised panel-framed rounded-[2rem] p-10 text-center max-w-4xl mx-auto relative"
             >
-              <div className="inline-block px-4 py-1.5 rounded-full glass-light text-accent text-xs font-bold tracking-widest mb-6">
-                BRAND PORTFOLIO
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-primary mb-8">
+              <Rivets />
+              <div className="plaque mb-6">BRAND PORTFOLIO</div>
+              <h2 className="text-3xl md:text-4xl font-black embossed mb-8">
                 Major PTC-Owned Lines Supported
               </h2>
               <div className="flex flex-wrap justify-center gap-4">
@@ -895,12 +948,11 @@ export default function Home() {
                 ].map((brand, i) => (
                   <motion.span
                     key={brand}
-                    initial={{ opacity: 0, scale: 0.5 }}
-                    whileInView={{ opacity: 1, scale: 1.1 }}
-                    whileHover={{ scale: 1.2, rotate: -2 }}
+                    initial={{ opacity: 0, scale: 0.6 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.4, delay: i * 0.05 }}
-                    className="pill-3d !text-sm !px-6 !py-2 !font-bold m-2"
+                    className="pill-3d !text-sm !px-6 !py-2.5 !font-bold m-1"
                   >
                     {brand}
                   </motion.span>
@@ -910,38 +962,39 @@ export default function Home() {
           </div>
         </section>
 
+        {/* ── Contact ──────────────────────────────────── */}
         <section id="contact" className="py-24 relative">
           <div className="container">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6 }}
-              className="glass-strong rounded-[3rem] p-10 sm:p-16 relative overflow-hidden"
+              className="panel-raised rounded-[2.5rem] p-10 sm:p-16 relative overflow-hidden"
             >
-              <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+              <Rivets />
               <div className="grid md:grid-cols-2 gap-16 relative z-10">
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-bold text-primary mb-8">
+                  <h2 className="text-4xl md:text-5xl font-black embossed mb-8">
                     Get in Touch
                   </h2>
                   <div className="space-y-8">
                     <div className="flex gap-5 items-start">
-                      <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center shrink-0 shadow-sm">
-                        <MapPin className="w-6 h-6 text-accent" />
+                      <div className="coin relative w-12 h-12 rounded-full shrink-0">
+                        <MapPin className="w-6 h-6" />
                       </div>
                       <div>
                         <p className="text-sm font-bold text-foreground/60 uppercase tracking-widest mb-1">
                           Location
                         </p>
-                        <p className="text-lg font-semibold text-primary">
+                        <p className="text-lg font-semibold embossed">
                           Mohallah Eid Gah, Chakwal, Pakistan
                         </p>
                       </div>
                     </div>
                     <div className="flex gap-5 items-start">
-                      <div className="w-12 h-12 rounded-2xl glass flex items-center justify-center shrink-0 shadow-sm">
-                        <Phone className="w-6 h-6 text-accent" />
+                      <div className="coin relative w-12 h-12 rounded-full shrink-0">
+                        <Phone className="w-6 h-6" />
                       </div>
                       <div>
                         <p className="text-sm font-bold text-foreground/60 uppercase tracking-widest mb-1">
@@ -949,7 +1002,7 @@ export default function Home() {
                         </p>
                         <a
                           href="tel:+92543669062"
-                          className="text-xl font-bold glow-orange hover:opacity-80 transition-opacity"
+                          className="text-xl font-black brass-text font-serif hover:opacity-80 transition-opacity"
                         >
                           +92 543 669062
                         </a>
@@ -958,7 +1011,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-primary mb-6">
+                  <h3 className="text-2xl font-bold embossed mb-6">
                     Business Hours
                   </h3>
                   <div className="space-y-4">
@@ -970,10 +1023,10 @@ export default function Home() {
                     ].map((s, i) => (
                       <div
                         key={i}
-                        className="flex justify-between items-center p-4 rounded-2xl glass-light"
+                        className="flex justify-between items-center p-4 rounded-2xl inset-well"
                       >
-                        <span className="font-bold text-primary">{s.day}</span>
-                        <span className="font-medium text-foreground/80">
+                        <span className="font-bold embossed">{s.day}</span>
+                        <span className="font-medium text-foreground/85">
                           {s.hours}
                         </span>
                       </div>
@@ -985,7 +1038,7 @@ export default function Home() {
           </div>
         </section>
 
-        <footer className="py-8 text-center text-foreground/60 font-medium">
+        <footer className="py-8 text-center text-foreground/65 font-medium embossed">
           <p>Muslim Traders | Official PTC Distributor Operations</p>
         </footer>
       </div>
