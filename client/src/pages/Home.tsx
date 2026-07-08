@@ -1,5 +1,5 @@
 import { useState, useMemo } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import {
   Filter,
   MapPin,
@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Tilt3D from "@/components/Tilt3D";
 import { useTheme } from "@/contexts/ThemeContext";
 import {
   Select,
@@ -339,6 +340,15 @@ const timelineData = [
   },
 ];
 
+/* Brass rule lines meeting a diamond stud — heritage section divider */
+function OrnamentDivider() {
+  return (
+    <div className="ornament-divider" aria-hidden="true">
+      <span className="ornament-diamond" />
+    </div>
+  );
+}
+
 /* Brass corner rivets for raised panels */
 function Rivets() {
   return (
@@ -356,6 +366,13 @@ export default function Home() {
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { theme, toggleTheme, switchable } = useTheme();
+
+  // Brass scroll-progress rail along the bottom of the leather nav
+  const { scrollYProgress } = useScroll();
+  const railProgress = useSpring(scrollYProgress, {
+    stiffness: 120,
+    damping: 28,
+  });
 
   const navLinks = [
     { href: "#journey", label: "Journey" },
@@ -479,9 +496,9 @@ export default function Home() {
             </div>
           </div>
           <div
-            className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out relative z-10 ${isMobileMenuOpen ? "max-h-80 opacity-100 border-t border-amber-200/20" : "max-h-0 opacity-0"}`}
+            className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ease-out relative z-10 ${isMobileMenuOpen ? "max-h-[70vh] opacity-100 border-t border-amber-200/20" : "max-h-0 opacity-0"}`}
           >
-            <div className="container flex flex-col py-3 px-4">
+            <div className="container flex max-h-[70vh] flex-col overflow-y-auto py-3 px-4">
               {navLinks.map(link => (
                 <a
                   key={link.href}
@@ -493,6 +510,12 @@ export default function Home() {
                 </a>
               ))}
             </div>
+          </div>
+          <div className="scroll-rail" aria-hidden="true">
+            <motion.div
+              className="scroll-rail-fill"
+              style={{ scaleX: railProgress }}
+            />
           </div>
         </nav>
 
@@ -506,7 +529,7 @@ export default function Home() {
             <div className="plaque sheen mb-6">
               EST. 1988 · CHAKWAL, PAKISTAN
             </div>
-            <h1 className="text-5xl md:text-6xl font-black embossed mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black embossed mb-6 leading-tight">
               A Legacy of <span className="brass-text italic">Trust</span>
             </h1>
             <p className="text-lg text-foreground/85 mb-8 leading-relaxed max-w-lg font-medium">
@@ -515,47 +538,70 @@ export default function Home() {
               three decades.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <motion.button whileTap={{ scale: 0.97 }} className="btn-3d">
-                View Portfolio
-              </motion.button>
-              <motion.button
+              <motion.a
+                href="#portfolio"
                 whileTap={{ scale: 0.97 }}
-                className="btn-3d-outline"
+                className="btn-3d inline-flex items-center justify-center"
+              >
+                View Portfolio
+              </motion.a>
+              <motion.a
+                href="#contact"
+                whileTap={{ scale: 0.97 }}
+                className="btn-3d-outline inline-flex items-center justify-center"
               >
                 Contact Us
-              </motion.button>
+              </motion.a>
             </div>
           </motion.div>
           <motion.div
-            className="grid grid-cols-1 gap-6"
+            className="flex flex-col items-center gap-10 persp"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
+            {/* Floating 3D brass medallion */}
             <motion.div
-              whileHover={{ translateY: -5 }}
-              className="panel-raised rounded-2xl p-6 relative overflow-hidden"
+              className="coin-stage relative w-56 sm:w-64 md:w-72"
+              initial={{ opacity: 0, scale: 0.7, rotateY: -60 }}
+              animate={{ opacity: 1, scale: 1, rotateY: 0 }}
+              transition={{ duration: 1, delay: 0.35, ease: "easeOut" }}
             >
-              <Rivets />
-              <div className="text-5xl font-black brass-text mb-2 font-serif">
-                375
+              <div className="coin-3d">
+                <div className="coin-face">
+                  <span className="coin-monogram">MT</span>
+                  <span className="coin-caption">EST · 1988</span>
+                </div>
               </div>
-              <p className="text-foreground/85 font-semibold">
-                Exclusive distributors in the PTC network
-              </p>
+              <div className="coin-shadow" />
             </motion.div>
-            <motion.div
-              whileHover={{ translateY: -5 }}
-              className="panel-raised rounded-2xl p-6 relative overflow-hidden"
-            >
-              <Rivets />
-              <div className="text-5xl font-black brass-text mb-2 font-serif">
-                400,000+
-              </div>
-              <p className="text-foreground/85 font-semibold">
-                Retail stores supported across Pakistan
-              </p>
-            </motion.div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+              <Tilt3D
+                max={10}
+                className="panel-raised rounded-2xl p-6 relative overflow-hidden"
+              >
+                <Rivets />
+                <div className="text-4xl sm:text-5xl font-black brass-text mb-2 font-serif">
+                  375
+                </div>
+                <p className="text-foreground/85 font-semibold">
+                  Exclusive distributors in the PTC network
+                </p>
+              </Tilt3D>
+              <Tilt3D
+                max={10}
+                className="panel-raised rounded-2xl p-6 relative overflow-hidden"
+              >
+                <Rivets />
+                <div className="text-4xl sm:text-5xl font-black brass-text mb-2 font-serif">
+                  400,000+
+                </div>
+                <p className="text-foreground/85 font-semibold">
+                  Retail stores supported across Pakistan
+                </p>
+              </Tilt3D>
+            </div>
           </motion.div>
         </section>
 
@@ -570,16 +616,17 @@ export default function Home() {
               transition={{ duration: 0.6 }}
             >
               <div className="plaque mb-4">OUR JOURNEY</div>
-              <h2 className="text-4xl md:text-5xl font-black embossed mb-4">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black embossed">
                 Through the Decades
               </h2>
-              <p className="text-foreground/85 max-w-2xl mx-auto font-medium">
+              <OrnamentDivider />
+              <p className="text-foreground/85 max-w-2xl mx-auto font-medium mt-4">
                 Every partnership tells a story of trust, growth, and market
                 excellence.
               </p>
             </motion.div>
 
-            <div className="relative max-w-4xl mx-auto py-10">
+            <div className="relative max-w-4xl mx-auto py-10 persp">
               <div className="tl-line" />
               {timelineData.map((entry, index) => {
                 const isLeft = index % 2 === 0;
@@ -587,10 +634,11 @@ export default function Home() {
                 return (
                   <motion.div
                     key={entry.year}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, y: 60, rotateY: isLeft ? -20 : 20 }}
+                    whileInView={{ opacity: 1, y: 0, rotateY: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.7, ease: "easeOut" }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    style={{ transformStyle: "preserve-3d" }}
                     className={`relative flex items-start mb-20 ${isLeft ? "flex-col md:flex-row md:pr-[50%] md:justify-end" : "flex-col md:flex-row-reverse md:pl-[50%] md:justify-end"}`}
                   >
                     <div className="absolute left-[23px] md:left-1/2 top-8 transform -translate-x-1/2 z-10">
@@ -598,8 +646,8 @@ export default function Home() {
                       <div className="seal-dot-pulse" />
                     </div>
 
-                    <motion.div
-                      whileHover={{ translateY: -4 }}
+                    <Tilt3D
+                      max={6}
                       className={`panel-raised rounded-3xl p-6 md:p-8 max-w-md w-[calc(100%-4rem)] ml-16 md:ml-0 relative ${isLeft ? "md:mr-10" : "md:ml-10"}`}
                     >
                       <div className="flex items-baseline gap-3 mb-4">
@@ -624,7 +672,7 @@ export default function Home() {
                           </span>
                         ))}
                       </div>
-                    </motion.div>
+                    </Tilt3D>
                   </motion.div>
                 );
               })}
@@ -634,15 +682,20 @@ export default function Home() {
 
         {/* ── Leadership plaque ────────────────────────── */}
         <section id="leadership" className="py-12 relative z-20">
-          <div className="container">
+          <div className="container persp">
             <motion.div
-              initial={{ opacity: 0, scale: 0.97 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, rotateX: 18, y: 40 }}
+              whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
-              className="panel-raised panel-framed rounded-[2rem] p-10 md:p-16 max-w-4xl mx-auto text-center relative overflow-hidden"
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              style={{ transformStyle: "preserve-3d" }}
+              className="max-w-4xl mx-auto"
             >
-              <Rivets />
+              <Tilt3D
+                max={5}
+                className="panel-raised panel-framed rounded-[2rem] p-10 md:p-16 text-center relative overflow-hidden"
+              >
+                <Rivets />
               <div className="plaque mb-6 relative z-10">LEADERSHIP</div>
               <h2 className="text-3xl md:text-4xl font-black embossed mb-6 relative z-10">
                 Abdul Rauf Athar
@@ -653,9 +706,23 @@ export default function Home() {
                 dedicated to empowering our partners and ensuring seamless
                 distribution across the Chakwal region."
               </p>
-              <div className="mt-8 text-sm font-bold text-foreground/60 uppercase tracking-widest relative z-10">
-                Founder & Managing Director
-              </div>
+                <div className="mt-8 text-sm font-bold text-foreground/60 uppercase tracking-widest relative z-10">
+                  Founder & Managing Director
+                </div>
+                <div className="mt-8 flex justify-center relative z-10">
+                  <motion.div
+                    initial={{ opacity: 0, scale: 1.6, rotate: -12 }}
+                    whileInView={{ opacity: 1, scale: 1, rotate: -6 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.45, delay: 0.3, ease: "easeOut" }}
+                    className="wax-seal"
+                    aria-label="Muslim Traders seal of trust, established 1988"
+                    role="img"
+                  >
+                    MT
+                  </motion.div>
+                </div>
+              </Tilt3D>
             </motion.div>
           </div>
         </section>
@@ -671,11 +738,12 @@ export default function Home() {
               transition={{ duration: 0.6 }}
             >
               <div className="plaque mb-4">OPERATIONS</div>
-              <h2 className="text-4xl md:text-5xl font-black embossed">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-black embossed">
                 Core Business Operations
               </h2>
+              <OrnamentDivider />
             </motion.div>
-            <div className="grid md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-8 persp">
               {[
                 {
                   title: "Retail Supply Chain",
@@ -696,23 +764,27 @@ export default function Home() {
               ].map((op, i) => (
                 <motion.div
                   key={i}
-                  whileHover={{ translateY: -4 }}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 40, rotateX: 16 }}
+                  whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: i * 0.1, ease: "easeOut" }}
-                  className="panel-raised rounded-3xl p-8 relative"
+                  transition={{ duration: 0.6, delay: i * 0.1, ease: "easeOut" }}
+                  style={{ transformStyle: "preserve-3d" }}
                 >
-                  <Rivets />
-                  <h3 className="text-xl font-bold embossed mb-4 flex items-center gap-3">
-                    <span className="coin relative w-9 h-9 shrink-0 text-sm font-black">
-                      {i + 1}
-                    </span>
-                    {op.title}
-                  </h3>
-                  <p className="text-foreground/85 leading-relaxed font-medium">
-                    {op.desc}
-                  </p>
+                  <Tilt3D
+                    max={8}
+                    className="panel-raised rounded-3xl p-8 relative h-full"
+                  >
+                    <Rivets />
+                    <h3 className="text-xl font-bold embossed mb-4 flex items-center gap-3">
+                      <span className="coin relative w-9 h-9 shrink-0 text-sm font-black">
+                        {i + 1}
+                      </span>
+                      {op.title}
+                    </h3>
+                    <p className="text-foreground/85 leading-relaxed font-medium">
+                      {op.desc}
+                    </p>
+                  </Tilt3D>
                 </motion.div>
               ))}
             </div>
@@ -726,10 +798,11 @@ export default function Home() {
               <div className="panel-raised rounded-[2rem] p-6 sm:p-10 relative z-10">
                 <div className="mb-10 text-center">
                   <div className="plaque mb-4">PRICE CATALOG</div>
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black embossed mb-4">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black embossed">
                     Official Price Board
                   </h2>
-                  <p className="text-foreground/85 max-w-2xl mx-auto font-medium">
+                  <OrnamentDivider />
+                  <p className="text-foreground/85 max-w-2xl mx-auto font-medium mt-4">
                     Cigarettes and Velo rates in PKR. All figures are regulated
                     wholesale & retail prices.
                   </p>
@@ -788,8 +861,39 @@ export default function Home() {
                 </div>
 
                 <div className="rounded-2xl border border-border/80 inset-well overflow-hidden">
+                  {/* Empty ledger page */}
+                  {filteredData.length === 0 && (
+                    <div className="p-12 sm:p-16 text-center flex flex-col items-center gap-4">
+                      <div className="coin relative w-14 h-14">
+                        <Search className="w-6 h-6" />
+                      </div>
+                      <p className="text-lg font-bold embossed">
+                        No entries found in the ledger
+                      </p>
+                      <p className="text-sm text-foreground/70 font-medium max-w-sm">
+                        No brands match "{searchTerm}"
+                        {categoryFilter !== "all"
+                          ? ` in ${categoryFilter}`
+                          : ""}
+                        . Try a different spelling or clear the filters.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearchTerm("");
+                          setCategoryFilter("all");
+                        }}
+                        className="btn-3d-outline mt-2 !px-6 !py-2.5"
+                      >
+                        Clear Filters
+                      </button>
+                    </div>
+                  )}
+
                   {/* Desktop Table */}
-                  <div className="overflow-x-auto hidden md:block">
+                  <div
+                    className={`overflow-x-auto ${filteredData.length === 0 ? "hidden" : "hidden md:block"}`}
+                  >
                     <table className="w-full text-left border-collapse min-w-[800px]">
                       <thead>
                         <tr className="ledger-head">
@@ -815,22 +919,17 @@ export default function Home() {
                       </thead>
                       <tbody>
                         {filteredData.map((item, i) => (
-                          <motion.tr
+                          <tr
                             key={i}
-                            initial={{ opacity: 0, x: -20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            viewport={{ once: true, margin: "-20px" }}
-                            transition={{
-                              duration: 0.3,
-                              delay: Math.min(i * 0.05, 0.5),
-                            }}
                             className="ledger-row"
                           >
                             <td className="p-4 font-bold embossed">
                               {item.brand}
                             </td>
                             <td className="p-4">
-                              <span className="pill-3d !py-1 !text-xs">
+                              <span
+                                className={`pill-3d !py-1 !text-xs ${item.category === "Velo" ? "pill-verdigris" : ""}`}
+                              >
                                 {item.category}
                               </span>
                             </td>
@@ -846,24 +945,19 @@ export default function Home() {
                             <td className="p-4 text-right font-medium text-foreground/85 tabular-nums">
                               {item.wsNonFiler}
                             </td>
-                          </motion.tr>
+                          </tr>
                         ))}
                       </tbody>
                     </table>
                   </div>
 
                   {/* Mobile Cards */}
-                  <div className="md:hidden flex flex-col divide-y divide-border/60">
+                  <div
+                    className={`flex-col divide-y divide-border/60 ${filteredData.length === 0 ? "hidden" : "flex md:hidden"}`}
+                  >
                     {filteredData.map((item, i) => (
-                      <motion.div
+                      <div
                         key={i}
-                        initial={{ opacity: 0, x: -20 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-20px" }}
-                        transition={{
-                          duration: 0.3,
-                          delay: Math.min(i * 0.05, 0.5),
-                        }}
                         className="p-4 flex flex-col gap-3"
                       >
                         <div className="flex justify-between items-start">
@@ -871,7 +965,9 @@ export default function Home() {
                             <h4 className="font-bold embossed text-base">
                               {item.brand}
                             </h4>
-                            <span className="pill-3d !py-0.5 !px-2 !text-[10px] mt-2 inline-block">
+                            <span
+                              className={`pill-3d !py-0.5 !px-2 !text-[10px] mt-2 inline-block ${item.category === "Velo" ? "pill-verdigris" : ""}`}
+                            >
                               {item.category}
                             </span>
                           </div>
@@ -911,7 +1007,7 @@ export default function Home() {
                             </div>
                           </div>
                         </div>
-                      </motion.div>
+                      </div>
                     ))}
                   </div>
                 </div>
@@ -922,20 +1018,24 @@ export default function Home() {
 
         {/* ── Brand portfolio ──────────────────────────── */}
         <section id="portfolio" className="py-20 relative">
-          <div className="container">
+          <div className="container persp">
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, rotateX: 14, y: 40 }}
+              whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              style={{ transformStyle: "preserve-3d" }}
               className="panel-raised panel-framed rounded-[2rem] p-10 text-center max-w-4xl mx-auto relative"
             >
               <Rivets />
               <div className="plaque mb-6">BRAND PORTFOLIO</div>
-              <h2 className="text-3xl md:text-4xl font-black embossed mb-8">
+              <h2 className="text-3xl md:text-4xl font-black embossed">
                 Major PTC-Owned Lines Supported
               </h2>
-              <div className="flex flex-wrap justify-center gap-4">
+              <div className="mb-8">
+                <OrnamentDivider />
+              </div>
+              <div className="flex flex-wrap justify-center gap-4 persp">
                 {[
                   "Dunhill",
                   "Benson & Hedges",
@@ -948,10 +1048,11 @@ export default function Home() {
                 ].map((brand, i) => (
                   <motion.span
                     key={brand}
-                    initial={{ opacity: 0, scale: 0.6 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
+                    initial={{ opacity: 0, rotateY: 92, scale: 0.7 }}
+                    whileInView={{ opacity: 1, rotateY: 0, scale: 1 }}
+                    whileHover={{ scale: 1.08, rotateZ: -1.5, y: -3 }}
                     viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: i * 0.05 }}
+                    transition={{ duration: 0.5, delay: i * 0.07 }}
                     className="pill-3d !text-sm !px-6 !py-2.5 !font-bold m-1"
                   >
                     {brand}
@@ -964,18 +1065,19 @@ export default function Home() {
 
         {/* ── Contact ──────────────────────────────────── */}
         <section id="contact" className="py-24 relative">
-          <div className="container">
+          <div className="container persp">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, rotateX: 12, y: 40 }}
+              whileInView={{ opacity: 1, rotateX: 0, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              style={{ transformStyle: "preserve-3d" }}
               className="panel-raised rounded-[2.5rem] p-10 sm:p-16 relative overflow-hidden"
             >
               <Rivets />
               <div className="grid md:grid-cols-2 gap-16 relative z-10">
                 <div>
-                  <h2 className="text-4xl md:text-5xl font-black embossed mb-8">
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl font-black embossed mb-8">
                     Get in Touch
                   </h2>
                   <div className="space-y-8">
@@ -1038,8 +1140,34 @@ export default function Home() {
           </div>
         </section>
 
-        <footer className="py-8 text-center text-foreground/65 font-medium embossed">
-          <p>Muslim Traders | Official PTC Distributor Operations</p>
+        <footer className="leather stitched rounded-t-3xl mx-2 sm:mx-4 mt-8">
+          <div className="container relative z-10 py-10 px-6 flex flex-col items-center gap-4 text-center">
+            <div className="coin relative w-12 h-12">
+              <span className="font-black text-sm">MT</span>
+            </div>
+            <p className="engraved-light font-bold text-lg font-serif">
+              Muslim Traders
+            </p>
+            <p className="engraved-light text-sm font-medium opacity-80">
+              Official PTC Distributor Operations · Mohallah Eid Gah, Chakwal
+            </p>
+            <div className="flex items-center gap-6 mt-1">
+              <a
+                href="tel:+92543669062"
+                className="engraved-light text-sm font-bold hover:text-amber-300 transition-colors inline-flex items-center gap-2"
+              >
+                <Phone className="w-4 h-4" />
+                +92 543 669062
+              </a>
+              <a
+                href="#journey"
+                className="engraved-light text-sm font-bold hover:text-amber-300 transition-colors inline-flex items-center gap-2"
+              >
+                <MapPin className="w-4 h-4" />
+                Since 1988
+              </a>
+            </div>
+          </div>
         </footer>
       </div>
     </div>
